@@ -1,4 +1,4 @@
-# 🗒 Patterns Journal Template
+# Patterns Journal Template
 
 > The patterns journal is the single most underused tool in DSA preparation. Most guides mention it. None show you what a good entry actually looks like.
 

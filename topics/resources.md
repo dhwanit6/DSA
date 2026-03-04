@@ -1,4 +1,4 @@
-# 📚 Resources & Daily Schedule
+# Resources & Daily Schedule
 
 > Resource paralysis is a real failure mode. The hierarchy below is definitive.
 
@@ -64,6 +64,9 @@ During mid-semester and end-semester exams (~3 weeks each, ~6 weeks/year total):
 - **Reduce to 45 min/day.** Solve 1 easy or re-solve a previously solved medium
 - **Do NOT start new topics.** Review only
 - **Resume full schedule immediately after exams.** The first day back will feel rusty — that's normal
+
+> **A note on spaced repetition:** The built-in "Revision" button on the problems page is a simple flag — it marks problems you want to revisit, but it doesn't schedule WHEN to revisit them. For proper spaced repetition (which research shows is the most effective retention technique), set calendar reminders to re-solve flagged problems on Day 3, Day 7, and Day 21 after first solving them. If you can solve it cold on Day 21, you own it.
+
 
 ---
 

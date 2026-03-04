@@ -1,4 +1,4 @@
-# 🌐 Language Flexibility — C++ / Python / Java Mappings
+# Language Flexibility — C++ / Python / Java Mappings
 
 > This guide uses C++ as the primary language because of its STL performance and prevalence in competitive programming. However, most companies accept Python and Java. If you prefer another language, use this mapping.
 

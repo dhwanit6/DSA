@@ -1,19 +1,62 @@
-# ⏰ Crash-Course Study Plans — For Students Who Found This Late
+# Crash-Course Study Plans — For Students Who Found This Late
 
 > Not everyone has 18 months. Here are battle-tested paths for 4, 8, and 16 weeks.
 
 ---
 
-## 🔥 4-Week Sprint (Already know basics, company interview in 1 month)
+## 4-Week Sprint (Already know basics, company interview in 1 month)
 
 **Prerequisite:** You can solve Easy problems in < 15 min. You know arrays, strings, and basic recursion.
 
-| Week | Focus (2-3 hrs/day) | Problems/Day | Target |
-|---|---|---|---|
-| **1** | Binary Search + Sliding Window + Two Pointers | 4-5 | Master all `O(N)` and `O(log N)` patterns |
-| **2** | Trees + Graphs (BFS/DFS only) + Topo Sort | 3-4 | Solve mediums with trees/graphs in < 30 min |
-| **3** | DP essentials (Linear, Knapsack, LCS, Grid) | 3 | Recognize DP triggers automatically |
-| **4** | Mock interviews + Company-specific + Behavioral | 2 + 1 mock/day | Simulate real conditions every day |
+**Daily commitment:** 3 hours minimum. No days off.
+
+### Week 1 — Arrays, Binary Search, Two Pointers
+
+| Day | Focus (3 hrs) | Problems |
+|---|---|---|
+| **Mon** | Prefix sums. Solve LC 303, 238, 560 | 3 |
+| **Tue** | Sliding window (fixed + variable). LC 3, 76, 209 | 3 |
+| **Wed** | Two pointers on sorted arrays. LC 15, 11, 167 | 3 |
+| **Thu** | Binary search fundamentals. LC 704, 33, 153 | 3 |
+| **Fri** | BS on answer. LC 875, 1011, 410 | 3 |
+| **Sat** | Kadane's + merge intervals. LC 53, 56, 57 | 3 |
+| **Sun** | Review. Redo any problem that took > 30 min. Journal patterns. | 2-3 |
+
+### Week 2 — Trees, Graphs, Stacks
+
+| Day | Focus (3 hrs) | Problems |
+|---|---|---|
+| **Mon** | Tree DFS (preorder, inorder, postorder). LC 104, 543, 236 | 3 |
+| **Tue** | Tree BFS (level order). LC 102, 199, 297 | 3 |
+| **Wed** | BST problems. LC 98, 230, 235 | 3 |
+| **Thu** | Graph BFS/DFS. LC 200, 695, 733 | 3 |
+| **Fri** | Topological sort. LC 207, 210. Union-Find: LC 547 | 3 |
+| **Sat** | Monotonic stack. LC 739, 84, 42 | 3 |
+| **Sun** | Review + 1 timed mock (pick 2 random Mediums, 45 min). | 2 |
+
+### Week 3 — DP Essentials
+
+| Day | Focus (3 hrs) | Problems |
+|---|---|---|
+| **Mon** | Linear DP. LC 70, 198, 300 | 3 |
+| **Tue** | 0/1 Knapsack + Subset Sum. LC 416, 494 | 2-3 |
+| **Wed** | Grid DP. LC 62, 64, 221 | 3 |
+| **Thu** | String DP (LCS, edit distance). LC 1143, 72 | 2 |
+| **Fri** | Interval DP + review. LC 516. Redo 3 weakest DP problems. | 3 |
+| **Sat** | Mixed practice — no topic labels. Grind 75 random set. | 4 |
+| **Sun** | Full mock interview (45 min, 2 problems, talk aloud). | 2 |
+
+### Week 4 — Mock Interviews + Peak
+
+| Day | Focus (3 hrs) | Problems |
+|---|---|---|
+| **Mon** | Morning: 1 timed mock. Afternoon: company-specific problem set. | 3 |
+| **Tue** | OA simulation (90 min, 3 problems, webcam on). Review mistakes. | 3 |
+| **Wed** | Behavioral prep: STAR stories for 6 scenarios. Practice aloud. | 1 mock |
+| **Thu** | Morning mock. Afternoon: review cheatsheets + weak patterns. | 2 |
+| **Fri** | Final mock. Review [Final Review](../interview/final-review.md) checklist. | 2 |
+| **Sat** | Light review only. Read cheatsheets. Sleep 8 hours. | 0 |
+| **Sun** | **Interview day.** You're ready. Trust the prep. | — |
 
 **What to skip in 4 weeks:** Advanced graphs (Dijkstra, Tarjan's), Segment Trees, Bit Manipulation, CP. Not enough time — focus on patterns that appear in 80% of interviews.
 
@@ -21,7 +64,7 @@
 
 ---
 
-## ⚡ 8-Week Plan (Know some DSA, need pattern mastery + interview skills)
+## 8-Week Plan (Know some DSA, need pattern mastery + interview skills)
 
 **Prerequisite:** Completed a basic DSA course. Solved 50+ problems but inconsistently.
 
@@ -40,7 +83,7 @@
 
 ---
 
-## 🏗 16-Week Plan (Starting intermediate, targeting top-tier placement)
+## 16-Week Plan (Starting intermediate, targeting top-tier placement)
 
 **Prerequisite:** C++ basics. Solved < 30 problems. Have 4-5 hours/day available.
 

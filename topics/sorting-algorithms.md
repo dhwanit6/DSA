@@ -1,4 +1,4 @@
-# 🔄 Sorting Algorithms — When and Why Each Matters
+# Sorting Algorithms — When and Why Each Matters
 
 > Most DSA guides assume you know sorting. Interviewers TEST it. Know when each sort is optimal.
 
@@ -30,7 +30,7 @@ void mergeSort(vector<int>& arr, int l, int r) {
 |---|---|
 | Time (all cases) | O(N log N) |
 | Space | O(N) — needs auxiliary array |
-| Stable? | ✅ Yes |
+| Stable? | Yes |
 | **When asked** | "Count inversions" (count swaps during merge), "merge K sorted arrays" |
 
 ---
@@ -62,7 +62,7 @@ void quickSort(vector<int>& arr, int lo, int hi) {
 | Time (average) | O(N log N) |
 | Time (worst: sorted input + bad pivot) | O(N²) — fix with random pivot |
 | Space | O(log N) — recursion stack |
-| Stable? | ❌ No |
+| Stable? | No |
 | **When asked** | "Kth largest element" (Quick Select), "Sort Colors / Dutch National Flag" (3-way partition) |
 
 **Quick Select** — finding kth element in O(N) average:
@@ -81,7 +81,7 @@ Uses a max-heap built in-place. Repeatedly extract max to the end.
 |---|---|
 | Time | O(N log N) all cases |
 | Space | O(1) — in-place |
-| Stable? | ❌ No |
+| Stable? | No |
 | **When asked** | Rarely standalone. Know it exists. Used internally by `priority_queue`. |
 
 ---
@@ -143,6 +143,14 @@ sort(arr.begin(), arr.end(), [&](int a, int b) {
 ```
 
 **Pitfall:** Your comparator MUST define strict weak ordering. `(a,b)` and `(b,a)` cannot both return true. `(a,a)` must return false. Violating this causes undefined behavior in C++.
+
+---
+
+## Recommended Videos
+
+- **Striver — Sorting Algorithms (Complete)** (YouTube, takeUforward) — Covers merge sort, quick sort, and all comparison sorts with C++ implementations. Best for Indian placement prep.
+- **Clément Mihailescu — Sorting Visualized** (YouTube) — Visual comparison of all major sorts. Helps build intuition for how each algorithm actually moves data.
+- **Abdul Bari — QuickSort Deep Dive** (YouTube) — The single best explanation of QuickSort partitioning and why random pivot matters.
 
 ---
 

@@ -1,4 +1,4 @@
-# ✅ Tier 2: Pattern Deepeners — The Next 60
+# Tier 2: Pattern Deepeners — The Next 60
 
 > These deepen specific patterns and cover additional FAANG favorites. Do after completing Tier 1.
 

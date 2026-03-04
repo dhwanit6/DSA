@@ -1,4 +1,4 @@
-# 📐 Complexity Analysis — As a Skill, Not a Label
+# Complexity Analysis — As a Skill, Not a Label
 
 > Most guides mention Big-O. None teach you how to **derive** it. Interviewers test derivation, not labeling.
 
@@ -194,6 +194,16 @@ Before submitting any solution in an interview or OA, run through this:
 **Space:** O(V + E) for graph + O(V) for distances + O(V) for heap = O(V + E)
 
 </details>
+
+---
+
+## Recommended Videos
+
+If you prefer learning by watching, these are the best free resources for complexity analysis:
+
+- **Abdul Bari — Time Complexity** (YouTube) — The clearest explanation of Big-O derivation, with worked examples. Watch this first.
+- **mycodeschool — Big-O, Omega, Theta** (YouTube) — Covers all three notations with mathematical rigor but keeps it accessible.
+- **MIT 6.006 — Lecture 1: Algorithmic Thinking** (MIT OpenCourseWare) — If you want the academic foundation. Erik Demaine is one of the best CS lecturers alive.
 
 ---
 

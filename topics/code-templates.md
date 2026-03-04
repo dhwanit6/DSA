@@ -1,4 +1,4 @@
-# 🔧 Code Templates — Annotated, Production-Ready C++ Snippets
+# Code Templates — Annotated, Production-Ready C++ Snippets
 
 > Copy-paste ready. Battle-tested in Codeforces, LeetCode, and CSES. Each template includes a "Why this works" annotation so you can modify it, debug it, and explain it in an interview.
 

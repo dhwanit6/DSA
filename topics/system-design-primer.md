@@ -1,4 +1,4 @@
-# 🏛 System Design Primer — What Freshers Now Need to Know
+# System Design Primer — What Freshers Now Need to Know
 
 > System design is now expected at fresh grad level at Google, Amazon, and Indian product companies (Flipkart, Swiggy, PhonePe, Meesho).
 

@@ -1,4 +1,4 @@
-# 🤖 AI-Era Interview Mastery — The Chapter No Other Guide Has
+# AI-Era Interview Mastery — The Chapter No Other Guide Has
 
 > Cross-validated against: Meta's pilot format (March 2026), Amazon's explicit ban policy, Google's reasoning-quality evaluation, r/developersIndia hiring reports, HackerRank Developer Skills Survey 2025.
 

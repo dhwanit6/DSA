@@ -1,4 +1,4 @@
-# 📋 Online Assessment (OA) Strategy — The First Real Gate
+# Online Assessment (OA) Strategy — The First Real Gate
 
 > Most students' FIRST technical barrier is not a live interview — it is a proctored OA. Failing the OA means you never get to use your DSA skills. This chapter teaches OA-specific strategy.
 

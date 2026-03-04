@@ -1,4 +1,4 @@
-# ✅ Tier 1: The Essential 60 Problems
+# Tier 1: The Essential 60 Problems
 
 > These 60 problems cover every pattern tested in FAANG interviews. Zero padding. Every problem earns its place.
 > 

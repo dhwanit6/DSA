@@ -1,4 +1,4 @@
-# 🧩 Pattern Recognition — How to Identify Which Algorithm to Use
+# Pattern Recognition — How to Identify Which Algorithm to Use
 
 > Knowing *how* algorithms work is half the job. Knowing *when* to use them is the other half — and most guides never teach it.
 
@@ -14,7 +14,7 @@ It is a learnable skill. It is built by studying the **triggers** — the specif
 
 ## Pattern Trigger Dictionary
 
-### 🔵 Sliding Window
+### Sliding Window
 
 **Triggers:**
 - "longest/shortest subarray/substring with condition..."
@@ -28,7 +28,7 @@ It is a learnable skill. It is built by studying the **triggers** — the specif
 
 ---
 
-### 🔵 Two Pointers
+### Two Pointers
 
 Three distinct sub-patterns — know which applies:
 
@@ -46,7 +46,7 @@ Examples: LC 88, LC 392, LC 977
 
 ---
 
-### 🔵 Binary Search
+### Binary Search
 
 **Triggers:**
 - Array is sorted (obvious)
@@ -65,7 +65,7 @@ Examples: LC 875 (Koko), LC 1011 (ship packages), LC 1482 (bouquets)
 
 ---
 
-### 🔵 Prefix Sum
+### Prefix Sum
 
 **Triggers:**
 - "sum of subarray from index i to j" — many times
@@ -79,7 +79,7 @@ Examples: LC 560, LC 238, LC 303
 
 ---
 
-### 🔵 Hash Map / Hash Set
+### Hash Map / Hash Set
 
 **Triggers:**
 - "find if X exists" — need O(1) lookup
@@ -90,7 +90,7 @@ Examples: LC 560, LC 238, LC 303
 
 ---
 
-### 🔵 Stack / Monotonic Stack
+### Stack / Monotonic Stack
 
 **Triggers:**
 - "next greater element" / "previous smaller element"
@@ -104,7 +104,7 @@ Examples: LC 739, LC 84, LC 496, LC 42
 
 ---
 
-### 🔵 BFS (Breadth-First Search)
+### BFS (Breadth-First Search)
 
 **Triggers:**
 - **Shortest path in an unweighted graph** — BFS guarantees shortest path
@@ -117,7 +117,7 @@ Examples: LC 739, LC 84, LC 496, LC 42
 
 ---
 
-### 🔵 DFS (Depth-First Search)
+### DFS (Depth-First Search)
 
 **Triggers:**
 - "all paths from source to target"
@@ -128,7 +128,7 @@ Examples: LC 739, LC 84, LC 496, LC 42
 
 ---
 
-### 🔵 Topological Sort
+### Topological Sort
 
 **Triggers:**
 - "tasks with prerequisites"
@@ -143,7 +143,7 @@ Examples: LC 207, LC 210, LC 269
 
 ---
 
-### 🔵 Union-Find (DSU)
+### Union-Find (DSU)
 
 **Triggers:**
 - "are X and Y in the same group/component?"
@@ -154,7 +154,7 @@ Examples: LC 207, LC 210, LC 269
 
 ---
 
-### 🔵 Dijkstra's Algorithm
+### Dijkstra's Algorithm
 
 **Triggers:**
 - "shortest path in a weighted graph" (non-negative weights only)
@@ -165,7 +165,7 @@ Examples: LC 207, LC 210, LC 269
 
 ---
 
-### 🔵 Dynamic Programming
+### Dynamic Programming
 
 **The hardest pattern to recognize. Use this flowchart:**
 
@@ -201,7 +201,7 @@ Can you define:
 
 ---
 
-### 🔵 Greedy
+### Greedy
 
 **Triggers:**
 - Sorting by a specific criterion leads to an obvious strategy
@@ -213,7 +213,7 @@ Can you define:
 
 ---
 
-### 🔵 Backtracking
+### Backtracking
 
 **Triggers:**
 - "find ALL solutions" (not just one or count)
@@ -234,7 +234,7 @@ function backtrack(state, choices):
 
 ---
 
-### 🔵 Heap / Priority Queue
+### Heap / Priority Queue
 
 **Triggers:**
 - "find K largest/smallest elements"
@@ -246,7 +246,7 @@ function backtrack(state, choices):
 
 ---
 
-### 🔵 Trie
+### Trie
 
 **Triggers:**
 - "autocomplete", "prefix matching"
@@ -287,6 +287,16 @@ This table is your first move when you see a problem. Read the constraints box *
 | N ≤ 100,000 | 1-2 sec | O(N log N) — sorting, binary search, heap, BFS |
 | N ≤ 1,000,000 | 1-2 sec | O(N) — hash map, sliding window, prefix sum |
 | N ≤ 10^9 | Any | O(log N) or O(1) — binary search on answer, math |
+
+---
+
+## Recommended Videos
+
+Pattern recognition is best learned by watching someone else think through problems. These channels explain the **why** behind pattern selection:
+
+- **NeetCode — How I Would Learn DSA (if starting over)** (YouTube) — Covers the mental model for categorizing problems. Watch this once, then revisit after solving 50 problems.
+- **Striver — Complete A2Z DSA Playlist** (YouTube, takeUforward) — Organized by pattern. Use the pattern-specific videos when you're stuck on a category.
+- **Errichto — How to Practice Competitive Programming** (YouTube) — Advanced, but his approach to reading constraints → choosing algorithms is directly applicable to interviews.
 
 ---
 

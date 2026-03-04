@@ -1,4 +1,4 @@
-# 🔧 Phase 0 — C++ Fluency Sprint [Weeks 1-3]
+# Phase 0 — C++ Fluency Sprint [Weeks 1-3]
 
 > Be honest: C++ mastery is not achieved in 3 weeks. This phase gives you FUNCTIONAL fluency — enough to solve problems without fighting the language.
 
@@ -45,9 +45,17 @@
 
 ---
 
-## Primary Resources
-- [Striver C++ STL playlist](https://www.youtube.com/@takeUforward) — 3 hours, covers everything above
-- [cppreference.com](https://en.cppreference.com/w/) — The authoritative C++ reference. Bookmark it.
+## Ready for Phase 1?
+
+You're ready to move on when you can do **all** of these without looking anything up:
+
+- Write a function that reads input, sorts a vector, and prints it — under 2 minutes.
+- Use `unordered_map` to count character frequencies in a string.
+- Implement a min-heap using `priority_queue` with a custom comparator.
+- Use `lower_bound` on a sorted array to find the first element ≥ a target.
+- Pass containers by reference and explain why it matters for performance.
+
+If any of these feel shaky, spend one more day drilling. Don't carry language friction into Phase 1 — it will slow everything down.
 
 ---
 

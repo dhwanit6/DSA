@@ -1,4 +1,4 @@
-# 🎤 Behavioral Guide — The Dimension That Eliminates Strong Coders
+# Behavioral Guide — The Dimension That Eliminates Strong Coders
 
 > At Amazon, behavioral rounds are weighted EQUALLY with technical rounds. At Google, "Googleyness & Leadership" is an independent hiring signal. This is not optional preparation.
 

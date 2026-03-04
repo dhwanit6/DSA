@@ -1,4 +1,4 @@
-# 🎯 Interview Mechanics — The 45-Minute Framework + Stuck Recovery
+# Interview Mechanics — The 45-Minute Framework + Stuck Recovery
 
 > Source: FAANG interviewer rubrics (2025-2026), interviewing.io data, Tech Interview Handbook, 50+ real interview reports from LeetCode Discuss.
 
@@ -66,7 +66,7 @@ Getting stuck is expected. Interviewers are trained to watch what you do WHEN st
 
 Interviewers silently evaluate your code against a quality rubric. Most candidates focus entirely on correctness and ignore quality.
 
-| Rule | ❌ Bad Example | ✅ Good Example |
+| Rule | Bad Example | Good Example |
 |---|---|---|
 | **Meaningful names** | `int x, y, z, temp` | `int left, right, windowSum, maxLen` |
 | **Edge cases at the TOP** | Logic first, check later or never | `if(nums.empty()) return -1;` — first line |
@@ -86,7 +86,7 @@ Before saying "I'm done," ALWAYS trace through your solution explicitly. This is
 3. **Test a "tricky" case:** duplicates, already sorted, reverse sorted.
 4. **Check for integer overflow** on large inputs.
 
-> 💡 The candidate who finds their own bug while testing scores HIGHER than the candidate who wrote correct code without testing. It shows production mindset.
+> The candidate who finds their own bug while testing scores HIGHER than the candidate who wrote correct code without testing. It shows production mindset.
 
 ---
 

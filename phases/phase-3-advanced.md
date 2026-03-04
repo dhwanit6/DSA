@@ -1,4 +1,4 @@
-# 🚀 Phase 3 — Advanced Mastery [Weeks 25-40]
+# Phase 3 — Advanced Mastery [Weeks 25-40]
 
 > Phase 3 is where top 10% becomes top 1%. This is intentionally uncomfortable.
 
@@ -52,7 +52,7 @@
 | 1900-2199 | Advanced algorithms | Competitive for FAANG |
 | 2200+ | Exceptional ability | FAANG strong hire signal |
 
-> 📊 CF rating is a calibration tool, not a hiring criterion. Thousands get placed at Microsoft/Amazon with no CP background.
+> CF rating is a calibration tool, not a hiring criterion. Thousands get placed at Microsoft/Amazon with no CP background.
 
 ---
 

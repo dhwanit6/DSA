@@ -1,4 +1,4 @@
-# 💡 Estimation & Mental Problems — The Questions Standard DSA Prep Misses
+# Estimation & Mental Problems — The Questions Standard DSA Prep Misses
 
 ---
 

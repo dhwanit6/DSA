@@ -1,78 +1,90 @@
-# ⚡ Start Here — Before You Write a Single Line of Code
+# Start Here — Before You Write a Single Line of Code
 
-> Read this before anything else. It takes 10 minutes and saves weeks of wrong direction.
+> Listen to me. Read this before anything else. It takes 5 minutes and will save you months of banging your head against the wall.
 
----
+### Before you begin
 
-## The Most Important Insight
-
-Most students fail interviews not because they lack knowledge.  
-They fail because they have the **wrong model of what an interview is testing.**
-
-A FAANG interviewer in 2026 uses a rubric with **four dimensions.** Solving the problem correctly is only *one* of them.
-
-| Dimension | What It Tests | How Most Candidates Fail |
-|---|---|---|
-| **1. Communication** | Do you clarify? Narrate your thinking? Explain trade-offs? | Silent coding. Thinking in their head and saying nothing. |
-| **2. Problem Solving** | Do you break the problem down? Identify patterns? Optimize step by step? | Jumping straight to code without a plan. |
-| **3. Technical Competency** | Is your code correct, clean, efficient? Do you handle edge cases? | Correct logic but sloppy code. No edge case handling. |
-| **4. Testing** | Do you verify your solution? Find your own bugs? | Saying "I think it works" without tracing through the code. |
-
-**The implication:** You can solve 800 LeetCode problems and still fail if you never practice the other three dimensions. From Day 1, practice all four — not just solving.
+This guide assumes you can already write basic programs — loops, functions, arrays, and simple input/output — in at least one language (C++, Python, or Java). If you're not there yet, that's completely fine. Spend 2–3 weeks on any introductory programming course first, then come back. This guide will still be here. **Don't rush the foundation.**
 
 ---
 
-## Your Day 1 Checklist
+## The Hard Truth Nobody Tells You
 
-Do these today. In this order. All five.
+I see this all the time: students grind 800 LeetCode problems, get into the interview, and completely bomb. Why? Because they don't understand what an interview actually is. 
 
-- [ ] **Create your tracking system.** Google Sheets or Notion. Columns: Problem Name | Date Solved | Topic | Pattern | Key Insight | Review Date. You will use this for 18 months. → [Template here](../tracking/progress-tracker.md)
+**An interview is not a math test. It's a collaboration test.**
 
-- [ ] **Read the Latency Numbers gist.** 5 minutes. Save it. You will memorize these numbers over the coming months. → [gist.github.com/jboner/2841832](https://gist.github.com/jboner/2841832)
+Interviewers at top companies aren't just looking for a working compiler. They score you on a four-dimension rubric. If your code holds together but you fail the other three, *you fail the interview.*
 
-- [ ] **Bookmark exactly 4 resources.** Striver's A2Z Sheet, LeetCode, TakeUforward YouTube, and this guide. Do not bookmark anything else yet. Resource paralysis is a real thing.
+<Flashcard question="What are the 4 dimensions an interviewer scores you on?">
+1. **Communication**: Talking through your logic.
+2. **Problem Solving**: Pattern recognition & breaking down complex tasks.
+3. **Technical Competency**: Code quality, efficiency (Big O), and edge cases.
+4. **Testing**: Proactively verifying your solution with dry runs.
+</Flashcard>
 
-- [ ] **Set up your C++ environment.** VSCode + C/C++ extension + a competitive programming snippet file. Do not use an online IDE for daily practice. The latency of a cloud IDE trains bad habits.
-
-- [ ] **Make one commitment.** A fixed daily time block, minimum 90 minutes, non-negotiable. Write it in your calendar right now.
-
----
-
-## Decide Your Track
-
-**Before you start, know which target you are preparing for.**
-
-→ **Internship in 5th Semester?** You have 6-8 months. Read [The Two Tracks](../interview/two-tracks.md) now to calibrate.  
-→ **Full-Time Placement in 7th/8th Semester?** You have 16-18 months. Read it anyway — the internship track feeds the full-time track.
+**The takeaway:** From Day 1, practice all four dimensions. Talk out loud. Write test cases. Stop acting like you're alone in a dark room submitting to a LeetCode grader.
 
 ---
 
-## The Three Rules That Separate Top 1% from Top 10%
+## Your Day 1 Checklist (Do This Right Now)
 
-**Rule 1 — Struggle Before Hints.**  
-30 minutes minimum of genuine effort before you look at any hint. The frustration you feel is not a problem — it is the mechanism of learning. Bypassing it means borrowing understanding you do not own. The interview will reveal the gap.
+Don't procrastinate on these. Do them in order.
 
-**Rule 2 — Write After Every Problem.**  
-After every problem you solve, write a 3-sentence journal entry. Pattern name, key insight, how it could appear in disguise. No entry = you do not own the insight yet. See the [Patterns Journal Template](../topics/patterns-journal-template.md) for what a good entry looks like.
+- [ ] **Create your tracking system.** I built a tracker straight into this website. Use it. Check off problems as you go, and hit "Revise!" when an algorithm doesn't stick in your head. If you prefer your own Notion setup, [here's a template you can steal](../tracking/progress-tracker.md).
+- [ ] **Memorize the Latency Numbers.** Take 5 minutes to look at this [latency gist](https://gist.github.com/jboner/2841832). "Disk seek" vs "Main memory access." You need this intuition for System Design later.
 
-**Rule 3 — Start Talking Out Loud From Week 1.**  
-Explain your approach to yourself, to the wall, to a rubber duck. The habit of externalizing your reasoning takes months to build and cannot be rushed the week before an interview. This is the most commonly neglected advice in every guide, including this one.
-
----
-
-## What You Will NOT Find in This Guide
-
-- A 400+ problem list padded to look impressive
-- Paid course recommendations (everything here is free)
-- A one-size-fits-all plan (the [Two Tracks](../interview/two-tracks.md) chapter handles differentiation)
-- Shortcuts (there are none worth taking)
+<UnderTheHood>
+**The Architectural Intuition**: A main memory reference is ~100ns. A disk seek is ~10,000,000ns. 
+In the CPU's eyes, waiting for a disk is like waiting 2 years for a package that usually takes 2 hours. This is why we care about $O(1)$ lookup in HashMaps and why we avoid nested loops that scan large arrays repeatedly. The CPU is fast; memory and disk are the bottlenecks.
+</UnderTheHood>
+- [ ] **Stop hoarding resources.** Bookmark this guide, LeetCode, and NeetCode/Striver's YouTube channels. That's it. Resource paralysis is real. You don't need 15 roadmaps. You just need to walk down one.
+- [ ] **Set up an actual IDE.** Use VSCode or CLion with a proper C++ setup locally. Don't rely on online IDEs for daily practice. The autocomplete crutches train bad habits.
+- [ ] **Make a blood pact with your calendar.** Block out minimum 90 minutes a day. Non-negotiable. Protect that time like your life depends on it. Because your career does.
 
 ---
 
-## What You WILL Find
+## Pick Your Lane
 
-A complete system covering everything top candidates know that average candidates don't: [OA strategy](../interview/oa-strategy.md), [interview mechanics](../interview/mechanics.md), [pattern recognition](../topics/pattern-recognition.md), [complexity analysis as a skill](../topics/complexity-analysis.md), [company-specific differentiation](../interview/company-specific.md), and the [mental game](../topics/mental-game.md) that no one talks about but everyone needs.
+**Are you aiming for an Internship (5th Sem) or Full-Time (7th/8th Sem)?**
+
+The strategies are completely different. If you have 6 months, you need to be ruthless with what you cut. If you have 18 months, you need to build deep foundations. 
+
+→ **Go read [The Two Tracks](../interview/two-tracks.md) right now to figure out your game plan.**
 
 ---
 
-**Next → [The Two Tracks: Internship vs Full-Time](../interview/two-tracks.md)**
+## The "Top 1%" Habits
+
+I've talked to hundreds of successful candidates. They all do these three things:
+
+**Rule 1 — The 30 Minute Struggle**  
+You have to fight the problem for at least 30 minutes before looking at a hint or video. *The frustration is the feeling of your brain growing.* If you just watch a video immediately, you are borrowing understanding you don't actually own. The interviewer will see right through it.
+
+<UnderTheHood>
+**Neuroplasticity note**: Your brain only creates new synaptic connections when you are in a state of mild frustration or "prediction error." If you see the solution immediately, your brain thinks "I already knew that" and won't bother encoding the logic into your long-term memory. Struggle is the signal for growth.
+</UnderTheHood>
+
+**Rule 2 — Write It Down Immediately**  
+After solving something, write down a 3-sentence journal entry. "This was a Sliding Window. The key trick was expanding the window until condition X broke, then shrinking it." If you can't write it out simply, you don't understand it yet. (Check the [Patterns Journal](../topics/patterns-journal-template.md)).
+
+**Rule 3 — Look Like a Crazy Person**  
+Talk out loud while you code. Yes, in your bedroom. Alone. Explain your approach to your wall or a rubber duck. I promise you: the habit of talking while coding takes months to feel natural. You *cannot* cram this skill the week before an interview.
+
+---
+
+## What We're NOT Doing Here
+
+- No 500+ problem lists padded to look impressive. We do the essential 120. Quality over quantity.
+- No paywalls. Everything you need is right here, for free. Don't let influencers rip you off.
+- No shortcuts. They don't exist.
+
+## What We ARE Doing
+
+We're going to build a system. [OA strategy](../interview/oa-strategy.md), exact [interview mechanics](../interview/mechanics.md), [pattern recognition](../topics/pattern-recognition.md), and [the mental game](../topics/mental-game.md) that nobody talks about.
+
+You ready? Let's get to work.
+
+---
+
+**Next step → [The Two Tracks: Internship vs Full-Time](../interview/two-tracks.md)**

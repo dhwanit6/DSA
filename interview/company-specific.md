@@ -1,4 +1,4 @@
-# 🏢 Company-Specific Preparation — One Size Does NOT Fit All
+# Company-Specific Preparation — One Size Does NOT Fit All
 
 > Cross-validated against: LeetCode Discuss company tags (2024-2026), GFG Interview Experiences, r/developersIndia campus placement reports, Glassdoor.
 
@@ -37,7 +37,7 @@ Interview questions repeat. Patterns and topics repeat heavily within a company 
 3. **Glassdoor Interview Questions** — filter by company, role, "software engineer."
 4. **r/developersIndia, r/cscareerquestionsIN** — real recent experiences from Indian students.
 
-> ✅ Spend the final 2 weeks before any specific company's drive doing ONLY that company's tagged problems and reading their recent interview experiences.
+> Spend the final 2 weeks before any specific company's drive doing ONLY that company's tagged problems and reading their recent interview experiences.
 
 ---
 

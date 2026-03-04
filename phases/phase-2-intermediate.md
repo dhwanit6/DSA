@@ -1,4 +1,4 @@
-# ⚙️ Phase 2 — Intermediate Mastery [Weeks 13-24]
+# Phase 2 — Intermediate Mastery [Weeks 13-24]
 
 ---
 
@@ -48,6 +48,23 @@
 6. **Subsequence DP** — LCS (LC 1143), LIS (LC 300 — O(N²) AND O(N log N)), Edit Distance (LC 72)
 7. **String DP** — Palindrome Partitioning (LC 131), Wildcard Matching (LC 44)
 8. **DP on Trees** — Tree knapsack, diameter, max path sum revisited
+
+**Worked Example — 1D DP (LC 198: House Robber)**
+
+> **Problem:** Given array `[2, 7, 9, 3, 1]`, find the maximum sum of non-adjacent elements.
+
+> **Step 1 — Define the state:** `dp[i]` = maximum money you can rob from houses `0..i`.
+
+> **Step 2 — Write the recurrence:** At house `i`, you have two choices: rob it (take `nums[i] + dp[i-2]`) or skip it (take `dp[i-1]`). So: `dp[i] = max(dp[i-1], nums[i] + dp[i-2])`.
+
+> **Step 3 — Base cases:** `dp[0] = nums[0]` (rob the only house). `dp[1] = max(nums[0], nums[1])` (rob the better of the first two).
+
+> **Step 4 — Trace through:** `dp = [2, 7, 11, 11, 12]`. Answer: 12.
+
+> **Step 5 — Space optimization:** `dp[i]` only depends on `dp[i-1]` and `dp[i-2]`. Replace the array with two variables. O(1) space.
+
+> This pattern — define state, write recurrence, identify base cases, optimize space — is the universal DP framework. Every DP variant below follows the same 4 steps.
+
 9. **Interval DP** — Burst Balloons (LC 312) — the hardest and most important
 
 → See the [DP Pattern Taxonomy Table](../topics/cheatsheets.md) for a consolidated reference of all 10 patterns with recurrences.
@@ -74,6 +91,21 @@
 - Count bits: `__builtin_popcount(n)` or Kernighan's: `while(n) { n &= n-1; count++; }`
 - XOR tricks: `a^a=0`, `a^0=a`. Single Number (LC 136)
 - Power of 2: `n && !(n & (n-1))`
+
+---
+
+## Ready for Phase 3?
+
+Phase 3 covers advanced topics (segment trees, advanced DP, string algorithms). You only need Phase 3 if you're targeting top-tier companies or competitive programming. For most placements, Phases 1-2 + solid interview prep is sufficient.
+
+Move to Phase 3 when you can:
+
+1. **Graphs:** Model a non-obvious word problem as a graph and choose the right algorithm (BFS vs. Dijkstra vs. Topo Sort) within 5 minutes.
+2. **DP:** Given a new problem, identify whether it needs DP and which pattern (linear, knapsack, interval, grid) applies — within 10 minutes.
+3. **Greedy:** Explain why a greedy approach fails for the 0/1 Knapsack problem but works for Activity Selection.
+4. **Overall:** You've solved 150+ problems total, with at least 80 Mediums.
+
+If you're interviewing in less than 4 weeks, skip Phase 3 entirely and go straight to [Interview Mechanics](../interview/mechanics.md) and [Mock Sessions](../interview/mock-sessions.md).
 
 ---
 

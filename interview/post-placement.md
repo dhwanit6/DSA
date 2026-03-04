@@ -1,4 +1,4 @@
-# 🎓 Post-Placement — Your First 90 Days & Beyond
+# Post-Placement — Your First 90 Days & Beyond
 
 > Getting the offer is not the finish line. It's the starting line. The gap between "campus hire" and "productive engineer" is where careers are made or stalled.
 

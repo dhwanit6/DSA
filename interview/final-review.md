@@ -1,4 +1,4 @@
-# ✅ Final Review — The 3-Day Pre-Interview Checklist
+# Final Review — The 3-Day Pre-Interview Checklist
 
 > You have an interview on Thursday. It's Monday evening. Here's exactly what to do.
 

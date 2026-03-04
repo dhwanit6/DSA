@@ -1,4 +1,4 @@
-# ❤️ The Mental Game & Recovery Framework
+# The Mental Game & Recovery Framework
 
 > Every long DSA journey has hard months. Knowing the warning signs before you need them is the difference between quitting and succeeding.
 

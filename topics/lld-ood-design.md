@@ -1,4 +1,4 @@
-# 🏗 Low-Level Design & Object-Oriented Design — The Round Most Guides Skip
+# Low-Level Design & Object-Oriented Design — The Round Most Guides Skip
 
 > Cross-validated against: Amazon SDE-I/II OOD round reports (2024-2026), Microsoft design round format, r/developersIndia campus placement data, Grokking the OOD Interview.
 
@@ -69,13 +69,13 @@ Don't memorize definitions. Understand the CODE SMELL each principle prevents.
 **Smell:** A class that changes for multiple reasons.
 
 ```cpp
-// ❌ BAD — PaymentProcessor handles payments AND sends emails
+// BAD — PaymentProcessor handles payments AND sends emails
 class PaymentProcessor {
     void processPayment(Payment p) { /* ... */ }
     void sendReceipt(string email) { /* ... */ }  // NOT its job
 };
 
-// ✅ GOOD — separate concerns
+// GOOD — separate concerns
 class PaymentProcessor {
     void processPayment(Payment p) { /* ... */ }
 };
@@ -89,14 +89,14 @@ class NotificationService {
 **Smell:** Modifying existing code every time you add a new type.
 
 ```cpp
-// ❌ BAD — adding a new vehicle type requires modifying this function
+// BAD — adding a new vehicle type requires modifying this function
 double calculateFee(Vehicle& v) {
     if (v.type == "CAR") return 10.0;
     else if (v.type == "TRUCK") return 20.0;
     // must modify here for every new type
 }
 
-// ✅ GOOD — extend by adding new classes, not modifying existing code
+// GOOD — extend by adding new classes, not modifying existing code
 class Vehicle {
 public:
     virtual double hourlyRate() const = 0;
@@ -116,7 +116,7 @@ class Truck : public Vehicle {
 **Smell:** A subclass that breaks the parent's contract.
 
 ```cpp
-// ❌ BAD — Square inherits Rectangle but violates width/height independence
+// BAD — Square inherits Rectangle but violates width/height independence
 class Rectangle {
 public:
     virtual void setWidth(int w) { width = w; }
@@ -136,14 +136,14 @@ class Square : public Rectangle {
 **Smell:** A class forced to implement methods it doesn't use.
 
 ```cpp
-// ❌ BAD — ElectricCar must implement refuel() which makes no sense
+// BAD — ElectricCar must implement refuel() which makes no sense
 class IVehicle {
     virtual void drive() = 0;
     virtual void refuel() = 0;   // Not all vehicles refuel
     virtual void charge() = 0;   // Not all vehicles charge
 };
 
-// ✅ GOOD — split into focused interfaces
+// GOOD — split into focused interfaces
 class IDriveable { virtual void drive() = 0; };
 class IFuelable { virtual void refuel() = 0; };
 class IChargeable { virtual void charge() = 0; };
@@ -157,12 +157,12 @@ class GasCar : public IDriveable, public IFuelable { /* ... */ };
 **Smell:** High-level modules depending on concrete low-level implementations.
 
 ```cpp
-// ❌ BAD — ParkingLot directly depends on MySQLDatabase
+// BAD — ParkingLot directly depends on MySQLDatabase
 class ParkingLot {
     MySQLDatabase db;  // tightly coupled
 };
 
-// ✅ GOOD — depend on abstraction
+// GOOD — depend on abstraction
 class IDatabase {
 public:
     virtual void save(const Ticket& t) = 0;

@@ -1,4 +1,4 @@
-# 📊 Progress Tracker & Spaced Repetition System
+# Progress Tracker & Spaced Repetition System
 
 > Copy this template to a Google Sheet or Notion page. Update it daily. It is the single most important tool in your preparation system.
 
@@ -28,9 +28,9 @@ Create a sheet with these exact columns:
 | H | Review Day 3 | Date (auto-calculate: F + 3) |
 | I | Review Day 7 | Date (auto-calculate: F + 7) |
 | J | Review Day 21 | Date (auto-calculate: F + 21) |
-| K | D3 Done? | ✓ or blank |
-| L | D7 Done? | ✓ or blank |
-| M | D21 Done? | ✓ or blank |
+| K | D3 Done? | or blank |
+| L | D7 Done? | or blank |
+| M | D21 Done? | or blank |
 | N | Owned? | Y / N (can you solve cold in < 25 min?) |
 | O | Key Insight | One sentence — the core idea |
 

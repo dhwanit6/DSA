@@ -1,4 +1,4 @@
-# 🏗 Phase 1 — Core DSA Foundations [Weeks 4-12]
+# Phase 1 — Core DSA Foundations [Weeks 4-12]
 
 > Follow Striver's A2Z Sheet as your primary spine. The order below is cognitively sequenced — do not reorder.
 
@@ -28,6 +28,21 @@
 - **Modular arithmetic** — `(a+b)%m`, `(a*b)%m`, binary exponentiation for `a^n mod m` in O(log n)
 
 **Key Problems:** LC 53, LC 238, LC 42, LC 3, LC 76, LC 560
+
+**Worked Example — Variable Sliding Window (LC 3: Longest Substring Without Repeating Characters)**
+
+> **Problem:** Given string `"abcabcbb"`, find the length of the longest substring without repeating characters.
+
+> **Brute Force thinking:** Check every possible substring. For each starting index, expand until a repeat. O(N²) — too slow for N = 50,000.
+
+> **Key insight:** When you find a repeat at position `j`, you don't need to restart from `i+1`. You can shrink the window from the left until the repeat is removed. This is the variable sliding window pattern.
+
+> **The mechanics:**
+> - Maintain a window `[left, right]` and a set of characters in the window
+> - Expand `right`: if `s[right]` is not in the set, add it, update max length
+> - If `s[right]` IS in the set: remove `s[left]` from set, move `left` forward. Repeat until no conflict.
+> - Every character enters and leaves the window at most once → O(N) total
+
 
 ---
 
@@ -80,6 +95,19 @@
 - **Morris traversal** — O(1) space tree traversal. Asked as "can you do it without extra space?"
 
 **Key problems:** LC 124, LC 297, LC 105, LC 230
+
+---
+
+## Ready for Phase 2?
+
+Before moving on, verify you can do **all four** of these. Time yourself — no hints, no editorial.
+
+1. **Arrays:** Solve a new LC Medium involving prefix sums or sliding window in under 25 minutes.
+2. **Stacks:** Given a monotonic stack problem you haven't seen, recognize the pattern within 5 minutes of reading the problem.
+3. **Recursion:** Write a backtracking solution (e.g. Subsets, Permutations) from scratch without looking at a template.
+4. **Trees:** Solve a tree problem requiring post-order DFS (e.g. diameter, path sum) in under 20 minutes.
+
+If you pass 3 of 4, move on. If you fail 2 or more, spend one more week on your weakest area before proceeding.
 
 ---
 

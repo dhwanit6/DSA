@@ -1,4 +1,4 @@
-# 🐛 Debugging & Testing — The Production Mindset Interviewers Reward
+# Debugging & Testing — The Production Mindset Interviewers Reward
 
 > "The candidate who finds their own bug while testing scores HIGHER than the candidate who wrote correct code without testing." — interviewing.io data
 

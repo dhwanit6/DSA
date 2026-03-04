@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧠 DSA Mastery Guide
+# DSA Mastery Guide
 ### The Complete, Research-Validated Roadmap — AI-Era Edition 2025-26
 
 [![Language](https://img.shields.io/badge/Language-C++-blue?style=flat-square&logo=cplusplus)](https://en.cppreference.com/)
@@ -21,7 +21,7 @@ Cross-validated against real interview reports, r/developersIndia, Codeforces di
 
 ---
 
-## ⚡ Quick Start — Read This First
+## Quick Start — Read This First
 
 **Fork this repo** → You can check off problems and tasks directly in your fork as you complete them.
 
@@ -33,68 +33,68 @@ Cross-validated against real interview reports, r/developersIndia, Codeforces di
 
 ---
 
-## 📖 Table of Contents
+## Table of Contents
 
-### 🗺 Learning Path
-
-| Section | What It Covers |
-|---|---|
-| [⚡ Start Here](./phases/start-here.md) | Day 1 actions, mindset, the 4-dimension interview rubric |
-| [🔧 Phase 0: C++ Mastery](./phases/phase-0-cpp.md) | STL deep dive, pitfalls that kill candidates |
-| [🏗 Phase 1: Foundations](./phases/phase-1-foundations.md) | Arrays → Trees (Weeks 4-12) |
-| [⚙️ Phase 2: Intermediate](./phases/phase-2-intermediate.md) | Graphs → Bit Manipulation (Weeks 13-24) |
-| [🚀 Phase 3: Advanced](./phases/phase-3-advanced.md) | Advanced DS, DP, Competitive Programming (Weeks 25-40) |
-| [⏰ Crash-Course Plans](./phases/crash-plans.md) | 4-week, 8-week, 16-week paths for late starters |
-
-### 🎯 Interview Preparation
+### Learning Path
 
 | Section | What It Covers |
 |---|---|
-| [🗺 The Two Tracks](./interview/two-tracks.md) | Internship prep vs full-time — different strategies |
-| [🎯 Interview Mechanics](./interview/mechanics.md) | 45-min framework, brute→optimize, stuck recovery |
-| [📋 OA Strategy](./interview/oa-strategy.md) | Platform guide, constraints table, partial credit |
-| [🏢 Company-Specific Prep](./interview/company-specific.md) | Google / Amazon / Microsoft / Indian product / Mass recruiters |
-| [🎤 Behavioral Guide](./interview/behavioral.md) | STAR+, Amazon LPs, questions to ask, 8 story templates |
-| [🎯 Mock Interview Sessions](./interview/mock-sessions.md) | 5 scripted practice sessions with self-evaluation rubric |
-| [✅ Final Review](./interview/final-review.md) | 3-day pre-interview checklist + interview morning routine |
-| [🎓 Post-Placement](./interview/post-placement.md) | Offer letters, first 90 days, DSA maintenance mode |
+| [Start Here](./phases/start-here.md) | Day 1 actions, mindset, the 4-dimension interview rubric |
+| [Phase 0: C++ Mastery](./phases/phase-0-cpp.md) | STL deep dive, pitfalls that kill candidates |
+| [Phase 1: Foundations](./phases/phase-1-foundations.md) | Arrays → Trees (Weeks 4-12) |
+| [Phase 2: Intermediate](./phases/phase-2-intermediate.md) | Graphs → Bit Manipulation (Weeks 13-24) |
+| [Phase 3: Advanced](./phases/phase-3-advanced.md) | Advanced DS, DP, Competitive Programming (Weeks 25-40) |
+| [Crash-Course Plans](./phases/crash-plans.md) | 4-week, 8-week, 16-week paths for late starters |
 
-### 📖 Deep-Dive Topics
+### Interview Preparation
 
 | Section | What It Covers |
 |---|---|
-| [📐 Complexity Analysis](./topics/complexity-analysis.md) | Big-O as a skill, recurrence relations, space complexity |
-| [🧩 Pattern Recognition](./topics/pattern-recognition.md) | How to IDENTIFY which algorithm to use |
-| [🔄 Sorting Algorithms](./topics/sorting-algorithms.md) | 5 sorts with code, decision matrix, custom comparators |
-| [🏛 System Design Primer](./topics/system-design-primer.md) | Schemas, API design, 5 walkthroughs, estimation math |
-| [🏗 LLD & OOD Design](./topics/lld-ood-design.md) | SOLID, design patterns, 5 full problem walkthroughs |
-| [💡 Estimation & Mental Problems](./topics/estimation-mental-problems.md) | MapReduce, HyperLogLog, worked back-of-envelope math |
-| [🤖 AI-Era Interview Mastery](./topics/ai-era-mastery.md) | Meta's AI-copilot format, AI skills drills |
-| [🐛 Debugging & Testing](./topics/debugging-testing.md) | 5-step protocol, edge case generation, GDB basics |
+| [The Two Tracks](./interview/two-tracks.md) | Internship prep vs full-time — different strategies |
+| [Interview Mechanics](./interview/mechanics.md) | 45-min framework, brute→optimize, stuck recovery |
+| [OA Strategy](./interview/oa-strategy.md) | Platform guide, constraints table, partial credit |
+| [Company-Specific Prep](./interview/company-specific.md) | Google / Amazon / Microsoft / Indian product / Mass recruiters |
+| [Behavioral Guide](./interview/behavioral.md) | STAR+, Amazon LPs, questions to ask, 8 story templates |
+| [Mock Interview Sessions](./interview/mock-sessions.md) | 5 scripted practice sessions with self-evaluation rubric |
+| [Final Review](./interview/final-review.md) | 3-day pre-interview checklist + interview morning routine |
+| [Post-Placement](./interview/post-placement.md) | Offer letters, first 90 days, DSA maintenance mode |
 
-### 🔧 Quick Reference & Tools
-
-| Section | What It Covers |
-|---|---|
-| [📋 Algorithm Cheatsheets](./topics/cheatsheets.md) | 1-page-per-topic quick reference + DP pattern taxonomy |
-| [🔧 Code Templates](./topics/code-templates.md) | 12 annotated C++ snippets with "Why this works" explanations |
-| [🌐 Language Flexibility](./topics/language-flexibility.md) | C++ / Python / Java STL mappings and pitfalls |
-| [⚠️ Common Mistakes](./topics/common-mistakes.md) | Top 20 preparation-killing mistakes with fixes |
-| [🗒 Patterns Journal](./topics/patterns-journal-template.md) | What a good journal entry actually looks like |
-| [❤️ Mental Game & Recovery](./topics/mental-game.md) | Burnout, warning signs, comparison trap |
-| [📚 Resources](./topics/resources.md) | Resource stack, daily schedule, adjacent skills pointers |
-
-### ✅ Problem Lists & Tracking
+### Deep-Dive Topics
 
 | Section | What It Covers |
 |---|---|
-| [✅ Tier 1 Problems (60)](./problems/tier1-essential-60.md) | The non-negotiable core |
-| [✅ Tier 2 Problems (60)](./problems/tier2-deepeners-60.md) | Pattern deepeners |
-| [📊 Progress Tracker](./tracking/progress-tracker.md) | Spaced repetition + problem log template |
+| [Complexity Analysis](./topics/complexity-analysis.md) | Big-O as a skill, recurrence relations, space complexity |
+| [Pattern Recognition](./topics/pattern-recognition.md) | How to IDENTIFY which algorithm to use |
+| [Sorting Algorithms](./topics/sorting-algorithms.md) | 5 sorts with code, decision matrix, custom comparators |
+| [System Design Primer](./topics/system-design-primer.md) | Schemas, API design, 5 walkthroughs, estimation math |
+| [LLD & OOD Design](./topics/lld-ood-design.md) | SOLID, design patterns, 5 full problem walkthroughs |
+| [Estimation & Mental Problems](./topics/estimation-mental-problems.md) | MapReduce, HyperLogLog, worked back-of-envelope math |
+| [AI-Era Interview Mastery](./topics/ai-era-mastery.md) | Meta's AI-copilot format, AI skills drills |
+| [Debugging & Testing](./topics/debugging-testing.md) | 5-step protocol, edge case generation, GDB basics |
+
+### Quick Reference & Tools
+
+| Section | What It Covers |
+|---|---|
+| [Algorithm Cheatsheets](./topics/cheatsheets.md) | 1-page-per-topic quick reference + DP pattern taxonomy |
+| [Code Templates](./topics/code-templates.md) | 12 annotated C++ snippets with "Why this works" explanations |
+| [Language Flexibility](./topics/language-flexibility.md) | C++ / Python / Java STL mappings and pitfalls |
+| [Common Mistakes](./topics/common-mistakes.md) | Top 20 preparation-killing mistakes with fixes |
+| [Patterns Journal](./topics/patterns-journal-template.md) | What a good journal entry actually looks like |
+| [Mental Game & Recovery](./topics/mental-game.md) | Burnout, warning signs, comparison trap |
+| [Resources](./topics/resources.md) | Resource stack, daily schedule, adjacent skills pointers |
+
+### Problem Lists & Tracking
+
+| Section | What It Covers |
+|---|---|
+| [Tier 1 Problems (60)](./problems/tier1-essential-60.md) | The non-negotiable core |
+| [Tier 2 Problems (60)](./problems/tier2-deepeners-60.md) | Pattern deepeners |
+| [Progress Tracker](./tracking/progress-tracker.md) | Spaced repetition + problem log template |
 
 ---
 
-## 🔍 What Makes This Different
+## What Makes This Different
 
 Every DSA guide on GitHub shares the same problem: **they're resource lists, not learning systems.** They tell you *what* to study. They never tell you *how* to think while studying, *how* to perform under pressure, or *how* to recover when you fall behind.
 
@@ -117,7 +117,7 @@ This guide was built after studying:
 
 ---
 
-## 🗺 The 18-Month Timeline
+## The 18-Month Timeline
 
 ```
 SEMESTER 4                    SEMESTER 5                    SEMESTER 6
@@ -148,7 +148,7 @@ Mediums in 30 min            LeetCode 1800+                 LeetCode 2000+ | CF 
 
 ---
 
-## 🎯 The Core Philosophy
+## The Core Philosophy
 
 > *You are not preparing to solve LeetCode problems. You are building three types of intelligence.*
 
@@ -165,7 +165,7 @@ Builds through: mock interviews from Month 3, talking out loud while coding alon
 
 ---
 
-## ❗ Critical Rules (Read Before Starting)
+## Critical Rules (Read Before Starting)
 
 **Rule 1:** Never look at a solution before 30-45 minutes of genuine struggle. The struggle is the neurological mechanism of learning, not an obstacle to it.
 
@@ -179,7 +179,7 @@ Builds through: mock interviews from Month 3, talking out loud while coding alon
 
 ---
 
-## 📚 The Resource Hierarchy
+## The Resource Hierarchy
 
 > Resource paralysis is a real failure mode. Use this hierarchy strictly.
 
@@ -209,7 +209,7 @@ Builds through: mock interviews from Month 3, talking out loud while coding alon
 
 ---
 
-## ✅ The Essential Problem Lists
+## The Essential Problem Lists
 
 Two curated lists. **Zero padding.** Every problem earns its place.
 
@@ -220,7 +220,7 @@ Two curated lists. **Zero padding.** Every problem earns its place.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Found a broken link? Know a better free resource? Caught an error? PRs are genuinely welcome.
 
@@ -228,7 +228,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-## ⭐ If This Helped You
+## If This Helped You
 
 Star this repo so others can find it. Share it with one friend who is starting their preparation journey.
 

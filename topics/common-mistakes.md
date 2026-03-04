@@ -1,4 +1,4 @@
-# ⚠️ Top 20 Mistakes That Kill Your DSA Preparation
+# Top 20 Mistakes That Kill Your DSA Preparation
 
 > Sourced from 100+ posts on r/developersIndia, r/cscareerquestions, LeetCode Discuss (2024-2026), and interviews with hiring managers.
 

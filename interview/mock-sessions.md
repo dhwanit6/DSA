@@ -1,4 +1,4 @@
-# 🎯 Mock Interview Scripts — 5 Structured Practice Sessions
+# Mock Interview Scripts — 5 Structured Practice Sessions
 
 > The gap between "knowing DSA" and "performing in an interview" is practice under simulation. These scripts turn solo practice into real preparation.
 
