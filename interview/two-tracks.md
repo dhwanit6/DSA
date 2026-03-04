@@ -1,117 +1,126 @@
-# The Two Tracks — Internship Prep vs Full-Time Placement
+# The Two Tracks - Internship vs Full-Time
 
-> This chapter is not in most guides. Internship and full-time interviews are different animals. Choosing the wrong track wastes months.
-
----
-
-## Which Track Are You?
-
-Answer these 5 questions honestly. No one is watching.
-
-1. **What semester are you in right now?**
-   - 3rd or 4th semester → **Track A (Internship)**
-   - 5th semester or later → Choose based on question 2
-
-2. **How many LeetCode problems have you solved?**
-   - Fewer than 30 → You need at least 3-4 months before any interview. Plan accordingly.
-   - 30-100 → You have a foundation. Both tracks are viable.
-   - 100+ → Focus on interview mechanics and system design, not more grinding.
-
-3. **Can you solve a random LC Medium in under 30 minutes consistently?**
-   - Yes → You're further along than you think. Start mock interviews.
-   - No → This is your bottleneck. Phase 1 → Phase 2 is your path.
-
-4. **When is your next placement window?**
-   - Less than 4 months → Read [Crash Plans](../phases/crash-plans.md) instead of this page. Go now.
-   - 4-8 months → Track A.
-   - 8+ months → Track B.
-
-5. **Are you panicking right now?**
-   - Yes → Take a breath. You are not behind. The fact that you found this guide and are reading it puts you ahead of most students who haven't started at all. Read the [Mental Game](../topics/mental-game.md) chapter before continuing.
-   - No → Good. Let's go.
+> This chapter exists for one reason: wrong track selection wastes months.
 
 ---
 
-## Track A — Internship (6-8 months of focused prep)
+## Step 0 - One-Time Setup (Do This First)
 
-Internship interviews are shorter, more focused, and genuinely easier than full-time rounds. They also matter more than most students realize.
+Before choosing a track, finish these:
 
-> India Skills Report 2026: Companies using internship-to-hire pipelines report **44% higher 5-year retention.** Your internship IS your full-time interview at many companies.
+- [ ] Read [Start Here](../phases/start-here.md)
+- [ ] Set up [Progress Tracker](../tracking/progress-tracker.md)
+- [ ] Open [Problems](/problems) and understand Tier 1 vs Tier 2
+- [ ] Keep [Dashboard](/dashboard) updated daily
 
-### How Internship Interviews Differ
+---
 
-| Dimension | Internship | Full-Time |
+## Choose Your Track in 30 Seconds
+
+| Situation | Track |
+|---|---|
+| 4th/5th sem, internship cycle ahead, 4-8 months | Track A (Internship) |
+| Full-time placement prep, 8+ months horizon | Track B (Full-Time) |
+| Interview/OA in < 4 months | Use [Crash Plans](../phases/crash-plans.md) first |
+
+If you are anxious and behind, read [Mental Game](../topics/mental-game.md) today and return tomorrow with a calm plan.
+
+---
+
+## Track A - Internship (Executable Plan, 6-8 Months)
+
+### Exact Chapter Order
+
+Follow this order strictly:
+
+1. [Phase 0](../phases/phase-0-cpp.md)
+2. [Phase 1](../phases/phase-1-foundations.md)
+3. [Phase 2](../phases/phase-2-intermediate.md)
+4. [Interview Mechanics](./mechanics.md)
+5. [OA Strategy](./oa-strategy.md)
+6. [Mock Sessions](./mock-sessions.md)
+7. [Company-Specific Prep](./company-specific.md)
+8. [Behavioral Guide](./behavioral.md)
+9. [Final Review](./final-review.md)
+
+### Monthly Execution Map
+
+| Month | Read/Study | Practice Outcome |
 |---|---|---|
-| **DSA Difficulty** | Easy to Medium (rarely Hard) | Medium to Hard |
-| **Rounds** | 1 OA + 1-2 Technical | 1 OA + 3-5 Technical |
-| **System Design** | Rare, conceptual | Expected at good companies |
-| **Behavioral** | Light — "tell me about a project" | Deep — STAR with quantified impact |
-| **Code Quality** | Basic correctness + communication | Full code quality + edge cases + testing |
+| 1 | Phase 0 + Start Here | C++ fluency + first 20 Tier 1 problems |
+| 2-3 | Phase 1 | Core patterns stable, Tier 1 completion in progress |
+| 4 | Phase 2 (core portions) | Graph/DP basics + medium confidence |
+| 5 | Mechanics + OA Strategy | 1 OA simulation/week |
+| 6 | Mock Sessions + Company Specific | 1 mock/week + targeted company prep |
+| 7 | Behavioral + weak-topic revision | STAR stories prepared + revision cycle |
+| 8 | Final Review | Interview-ready week |
 
-### Track A — Week-by-Week Timeline
+### What to Skip for Internship Track
 
-| Month | Focus | Weekly Hours | Milestone |
-|---|---|---|---|
-| **1** | Phase 0 (C++ STL) + Arrays, Strings | 12-15 hrs | STL fluent. 30 Easy solved. |
-| **2** | Binary Search + Recursion + Backtracking | 12-15 hrs | BS on Answer automatic. 60 total. |
-| **3** | Linked Lists, Stacks, Trees | 15 hrs | Tree DFS/BFS in under 20 min. 90 total. |
-| **4** | Basic Graphs (BFS, DFS, Topo Sort) | 15 hrs | Can model non-obvious problems as graphs. |
-| **5** | Basic DP (1D, 2D, Knapsack) + Greedy | 15 hrs | Recognize DP triggers automatically. |
-| **6** | Company-tagged Mediums + 1 mock/week | 12 hrs | Mediums consistently under 25 min. |
-| **7** | OA simulations (2/week) + Behavioral prep | 10 hrs | OA simulation score > 80%. |
-| **8** | Mock interviews (3/week) + Final review | 8 hrs | **Interview ready.** |
-
-### What to SKIP in Track A
-- Advanced graphs (Dijkstra, Tarjan's, Euler paths)
-- Segment Trees, BIT, advanced data structures
-- Advanced DP (bitmask, digit, tree DP)
-- Competitive programming contest prep
-- System design deep-dives
-
-You can learn these for full-time prep later. Don't dilute your focus now.
+- Advanced graph algorithms (Tarjan/Euler-heavy topics)
+- Segment trees/BIT deep dives
+- Heavy competitive programming prep
+- Deep system design
 
 ---
 
-## Track B — Full-Time Placement (12-18 months of deep prep)
+## Track B - Full-Time (Executable Plan, 12-18 Months)
 
-Full-time is a different level. Companies now expect system design basics even from freshers. The bar is higher, but you have more time.
+### Exact Chapter Order
 
-### Track B — Requirements Before Interviewing
+1. [Phase 0](../phases/phase-0-cpp.md)
+2. [Phase 1](../phases/phase-1-foundations.md)
+3. [Phase 2](../phases/phase-2-intermediate.md)
+4. [Phase 3](../phases/phase-3-advanced.md)
+5. [Interview Mechanics](./mechanics.md)
+6. [OA Strategy](./oa-strategy.md)
+7. [System Design Primer](../topics/system-design-primer.md)
+8. [LLD & OOD](../topics/lld-ood-design.md)
+9. [Estimation](../topics/estimation-mental-problems.md)
+10. [Mock Sessions](./mock-sessions.md)
+11. [Company-Specific Prep](./company-specific.md)
+12. [Behavioral Guide](./behavioral.md)
+13. [Final Review](./final-review.md)
 
-- [ ] Phase 1-3 of DSA curriculum fully completed
-- [ ] 150+ problems solved (at least 80 Mediums)
-- [ ] System design: can do a 30-minute walkthrough of URL Shortener, Chat System, or News Feed
-- [ ] Estimation problems fluent — latency numbers memorized
-- [ ] 8 behavioral stories in STAR+ format, practiced aloud
-- [ ] Company-specific preparation done for target companies
-- [ ] 3+ full mock interviews completed with partner
+### Monthly Execution Map
 
-### Track B — Month-by-Month Timeline
-
-| Month | Focus | Milestone |
+| Phase Window | Focus | Outcome |
 |---|---|---|
-| **1-3** | Phase 0 + Phase 1 (C++ → Trees) | 100 problems, Mediums in 25 min |
-| **4-6** | Phase 1 completion + Phase 2 start (Graphs, Greedy) | 180 problems, graph modeling solid |
-| **7-9** | Phase 2 (DP all patterns) + start contests | 280 problems, DP patterns automatic |
-| **10-12** | Phase 3 + System Design basics | 350 problems, can design URL shortener |
-| **13-15** | Company-specific + Behavioral + Mock interviews | Peak preparation, 3 mocks/week |
-| **16-18** | Final review cycle + active interviewing | **Interview ready.** |
+| Months 1-4 | Phase 0 + Phase 1 | Core DSA foundation + Tier 1 near completion |
+| Months 5-8 | Phase 2 | Intermediate topics + medium consistency |
+| Months 9-12 | Phase 3 + system design basics | Advanced readiness for top-tier loops |
+| Months 13-15 | Interview mechanics + mocks + company prep | Interview simulation quality improves |
+| Months 16-18 | Final revision cycles + active applications | Interview-ready execution |
+
+### Baseline Readiness Before Real Interviews
+
+- [ ] Core 120 set completed (or equivalent mastery)
+- [ ] Can solve medium with explanation under time constraints
+- [ ] 8 behavioral stories ready in STAR format
+- [ ] 3+ full timed mock interviews completed
 
 ---
 
-## If You're Feeling Behind
+## This Week Plan (No Guessing)
 
-Read this carefully.
+If you are Track A:
 
-There is no "too late." Students who started in their 7th semester with zero DSA knowledge have gotten placed at Amazon, Flipkart, and Microsoft. The difference wasn't starting early — it was starting intensely and following a focused plan.
+1. Finish [Phase 0](../phases/phase-0-cpp.md) Day 1 tasks.
+2. Solve first 10 problems from [Problems](/problems).
+3. Read [Interview Mechanics](./mechanics.md) once and practice talking aloud.
 
-What actually kills preparation is not late starts. It's:
-1. **Unfocused studying** — watching 4 YouTube channels simultaneously instead of following one path
-2. **Comparison anxiety** — seeing LinkedIn posts and abandoning your plan to chase someone else's
-3. **Skipping the uncomfortable parts** — avoiding DP because it's hard, then failing the interview because DP appeared
+If you are Track B:
 
-If you're starting late, go directly to [Crash Plans](../phases/crash-plans.md). If you have time, follow the track above.
+1. Finish [Phase 0](../phases/phase-0-cpp.md) Week 1.
+2. Start [Phase 1](../phases/phase-1-foundations.md) Week 4-5 section.
+3. Set up weekly review loop using [Progress Tracker](../tracking/progress-tracker.md).
 
 ---
 
-**Next → [Interview Mechanics](./mechanics.md)**
+## If You Are Late
+
+Do not force-fit a long plan. Use [Crash Plans](../phases/crash-plans.md) first, then re-enter the appropriate track.
+
+---
+
+**Next -> [Phase 0: C++ Fluency Sprint](../phases/phase-0-cpp.md)**

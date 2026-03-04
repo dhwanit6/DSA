@@ -119,6 +119,8 @@ This guide was built after studying:
 
 ## The 18-Month Timeline
 
+Core target is the curated 120-problem system. Counts beyond that in this section represent optional extension volume for top-tier goals.
+
 ```
 SEMESTER 4                    SEMESTER 5                    SEMESTER 6
 [Month 1-3]                  [Month 4-8]                   [Month 9-18]

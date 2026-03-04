@@ -8,7 +8,7 @@
 
 Human memory follows the forgetting curve — without review, you forget ~70% of new material within a week. The spaced repetition schedule (Day 3 → Day 7 → Day 21) is based on memory consolidation research. Problems reviewed at these intervals move from short-term to long-term memory with ~80% retention.
 
-This is why two students who solve the same 300 problems can have completely different results: one reviewed strategically, the other didn't.
+This is why two students who solve the same core set can have completely different results: one reviewed strategically, the other didn't.
 
 ---
 
@@ -78,16 +78,13 @@ Add a second sheet with these stats to track momentum:
 
 ## Monthly Milestones Checklist
 
-- [ ] **Month 1:** 50 problems solved. C++ STL fluent. Easy LeetCode in < 15 min.
-- [ ] **Month 2:** 100 problems. Recursion/backtracking template automatic. First Pramp session done.
-- [ ] **Month 3:** 150 problems. Trees and basic graphs solid. First LeetCode Weekly Contest attempted.
-- [ ] **Month 4-5:** 200 problems. Internship OA mocks started (2/week timed).
-- [ ] **Month 6:** 250 problems. Greedy + Basic DP done. **Internship season.**
-- [ ] **Month 7-8:** 300 problems. Full DP patterns done. CF Div.3 A-C consistent.
-- [ ] **Month 9-10:** 350 problems. CSES 150+ done. LeetCode 2000+ rating.
-- [ ] **Month 11-12:** 400 problems. Advanced DS done. CF Specialist+.
-- [ ] **Month 13-15:** System design basics solid. 2 mock interviews/week.
-- [ ] **Month 16-18:** **Full-time placement season.** 3 mocks/week. Company-specific prep final 2 weeks.
+- [ ] **Month 1:** 30 core problems solved. C++ STL fluent. Easy LeetCode in < 15 min.
+- [ ] **Month 2:** 60 core problems. Recursion/backtracking template automatic. First mock session done.
+- [ ] **Month 3:** 90 core problems. Trees and basic graphs solid. First timed OA simulation attempted.
+- [ ] **Month 4-5:** 120 core problems complete. Internship OA mocks started (2/week timed).
+- [ ] **Month 6:** Core revision cycle running (Day 3/7/21 reviews) + interview mechanics practice.
+- [ ] **Month 7-10 (Optional Extension):** Add company-tagged and advanced deepeners based on targets.
+- [ ] **Month 11-18 (Optional Extension):** System design, advanced DSA, and high-frequency mocks for top-tier roles.
 
 ---
 
@@ -108,4 +105,4 @@ Maintaining the tracker for 18 months is harder than solving the problems.
 
 On the days you don't feel like updating it — update it anyway. The tracking system creates accountability. Accountability creates consistency. Consistency creates placement offers.
 
-The data you collect also becomes extremely valuable in mock interviews when asked: *"How have you been preparing?"* Being able to say *"I've solved 380 problems across all topics, reviewed each three times using spaced repetition, and my average solve time for Mediums has gone from 45 minutes to 22 minutes"* is a different signal than *"I've been doing LeetCode."*
+The data you collect also becomes extremely valuable in mock interviews when asked: *"How have you been preparing?"* Being able to say *"I've completed the 120-problem core set, reviewed each key pattern on Day 3/7/21, and cut my medium solve time from 45 minutes to 22 minutes"* is a very different signal than *"I've been doing LeetCode."*

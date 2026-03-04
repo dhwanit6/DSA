@@ -1,7 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { toggleProblem, isProblemSolved, isMarkedForRevision, toggleRevisionMark } from "@/lib/progress";
+import { useMemo, useState, useSyncExternalStore } from "react";
+import {
+    getProgressServerSnapshot,
+    getProgressSnapshot,
+    subscribeProgress,
+    toggleProblem,
+    toggleRevisionMark,
+} from "@/lib/progress";
 
 interface Problem {
     id: string;
@@ -10,6 +16,7 @@ interface Problem {
     lc: string;
     pattern: string;
     track: string;
+    note?: string;
     video?: string;
     time?: string;
     space?: string;
@@ -20,7 +27,7 @@ const TIER1: Problem[] = [
     { id: "t1-2", name: "Best Time to Buy and Sell Stock", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", lc: "121", pattern: "Prefix", track: "Both", video: "https://youtu.be/1pkOgXD63yU", time: "O(N)", space: "O(1)" },
     { id: "t1-3", name: "Product of Array Except Self", url: "https://leetcode.com/problems/product-of-array-except-self/", lc: "238", pattern: "Prefix Sum", track: "Both", video: "https://youtu.be/bNvIQI2wAWE", time: "O(N)", space: "O(1)" },
     { id: "t1-4", name: "Maximum Subarray", url: "https://leetcode.com/problems/maximum-subarray/", lc: "53", pattern: "Kadane's", track: "Both", video: "https://youtu.be/5WZl3MMT0Eg", time: "O(N)", space: "O(1)" },
-    { id: "t1-5", name: "3Sum", url: "https://leetcode.com/problems/3sum/", lc: "15", pattern: "Two Pointers", track: "FT", video: "https://youtu.be/jzZsG8n2R9A", time: "O(N²)", space: "O(N)" },
+    { id: "t1-5", name: "3Sum", url: "https://leetcode.com/problems/3sum/", lc: "15", pattern: "Two Pointers", track: "FT", video: "https://youtu.be/jzZsG8n2R9A", time: "O(N^2)", space: "O(N)" },
     { id: "t1-6", name: "Container With Most Water", url: "https://leetcode.com/problems/container-with-most-water/", lc: "11", pattern: "Two Pointers", track: "Both", video: "https://youtu.be/UuiTKBwPgAo", time: "O(N)", space: "O(1)" },
     { id: "t1-7", name: "Trapping Rain Water", url: "https://leetcode.com/problems/trapping-rain-water/", lc: "42", pattern: "Monotonic Stack", track: "FT", video: "https://youtu.be/ZI2z5pq0TqA", time: "O(N)", space: "O(N)" },
     { id: "t1-8", name: "Longest Substring Without Repeating", url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", lc: "3", pattern: "Sliding Window", track: "Both", video: "https://youtu.be/wiGpQwVHdE0", time: "O(N)", space: "O(K)" },
@@ -78,39 +85,93 @@ const TIER1: Problem[] = [
     { id: "t1-60", name: "Longest Consecutive Sequence", url: "https://leetcode.com/problems/longest-consecutive-sequence/", lc: "128", pattern: "Hash Set", track: "Both" },
 ];
 
-function ProblemRow({ problem }: { problem: Problem }) {
-    const [solved, setSolved] = useState(() => isProblemSolved(problem.id));
-    const [revision, setRevision] = useState(() => isMarkedForRevision(problem.id));
+const TIER2: Problem[] = [
+    { id: "t2-61", name: "Sliding Window Maximum", url: "https://leetcode.com/problemset/all/?search=239", lc: "239", pattern: "Monotonic Deque", track: "FT", note: "Hard, frequently asked" },
+    { id: "t2-62", name: "Count of Range Sum", url: "https://leetcode.com/problemset/all/?search=327", lc: "327", pattern: "Merge Sort / BIT", track: "FT", note: "Divide and conquer" },
+    { id: "t2-63", name: "Pacific Atlantic Water Flow", url: "https://leetcode.com/problemset/all/?search=417", lc: "417", pattern: "Multi-source BFS/DFS", track: "FT", note: "Grid with two-source BFS" },
+    { id: "t2-64", name: "Surrounded Regions", url: "https://leetcode.com/problemset/all/?search=130", lc: "130", pattern: "DFS from boundary", track: "FT", note: "Mark safe first" },
+    { id: "t2-65", name: "01 Matrix", url: "https://leetcode.com/problems/01-matrix/", lc: "542", pattern: "Multi-source BFS", track: "FT", note: "Distance-to-nearest source BFS" },
+    { id: "t2-66", name: "Redundant Connection", url: "https://leetcode.com/problemset/all/?search=684", lc: "684", pattern: "Union-Find", track: "FT", note: "DSU cycle detection" },
+    { id: "t2-67", name: "Alien Dictionary", url: "https://leetcode.com/problemset/all/?search=269", lc: "269", pattern: "Topological Sort", track: "FT", note: "Hard, pure topo sort" },
+    { id: "t2-68", name: "Reconstruct Itinerary", url: "https://leetcode.com/problemset/all/?search=332", lc: "332", pattern: "Hierholzer\'s", track: "FT", note: "Euler Path DFS" },
+    { id: "t2-69", name: "Critical Connections", url: "https://leetcode.com/problemset/all/?search=1192", lc: "1192", pattern: "Tarjan\'s Bridges", track: "FT", note: "Amazon, LinkedIn" },
+    { id: "t2-70", name: "Clone Graph", url: "https://leetcode.com/problemset/all/?search=133", lc: "133", pattern: "BFS + HashMap", track: "FT", note: "Graph reconstruction" },
+    { id: "t2-71", name: "Max Product Subarray", url: "https://leetcode.com/problemset/all/?search=152", lc: "152", pattern: "DP min/max tracking", track: "FT", note: "Maintain both min and max" },
+    { id: "t2-72", name: "Longest Palindromic Subsequence", url: "https://leetcode.com/problems/longest-palindromic-subsequence/", lc: "516", pattern: "2D DP", track: "FT", note: "Classic interval-style string DP" },
+    { id: "t2-73", name: "Decode Ways", url: "https://leetcode.com/problemset/all/?search=91", lc: "91", pattern: "1D DP", track: "FT", note: "State design is key" },
+    { id: "t2-74", name: "Palindromic Substrings", url: "https://leetcode.com/problemset/all/?search=647", lc: "647", pattern: "Expand Around Center", track: "FT", note: "Faster than 2D DP" },
+    { id: "t2-75", name: "Regex Matching", url: "https://leetcode.com/problemset/all/?search=10", lc: "10", pattern: "2D DP", track: "FT", note: "Hard DP" },
+    { id: "t2-76", name: "Interleaving String", url: "https://leetcode.com/problemset/all/?search=97", lc: "97", pattern: "2D DP", track: "FT", note: "Classic structure" },
+    { id: "t2-77", name: "Distinct Subsequences", url: "https://leetcode.com/problemset/all/?search=115", lc: "115", pattern: "2D DP", track: "FT", note: "Count variant" },
+    { id: "t2-78", name: "Cherry Pickup II", url: "https://leetcode.com/problemset/all/?search=1463", lc: "1463", pattern: "3D DP", track: "FT", note: "Two agents on grid" },
+    { id: "t2-79", name: "Maximum Rectangle", url: "https://leetcode.com/problemset/all/?search=85", lc: "85", pattern: "Histogram DP", track: "FT", note: "LC 84 as subproblem" },
+    { id: "t2-80", name: "House Robber III", url: "https://leetcode.com/problemset/all/?search=337", lc: "337", pattern: "DP on Trees", track: "FT", note: "Two states" },
+    { id: "t2-81", name: "Min Cost to Cut Stick", url: "https://leetcode.com/problemset/all/?search=1547", lc: "1547", pattern: "Interval DP", track: "FT", note: "Ordering matters" },
+    { id: "t2-82", name: "Target Sum", url: "https://leetcode.com/problemset/all/?search=494", lc: "494", pattern: "0/1 Knapsack count", track: "FT", note: "Subset sum variant" },
+    { id: "t2-83", name: "Coin Change II", url: "https://leetcode.com/problemset/all/?search=518", lc: "518", pattern: "Unbounded count", track: "FT", note: "Loop order matters" },
+    { id: "t2-84", name: "Last Stone Weight II", url: "https://leetcode.com/problemset/all/?search=1049", lc: "1049", pattern: "0/1 Knapsack", track: "FT", note: "Reduce to partition" },
+    { id: "t2-85", name: "Longest Valid Parens", url: "https://leetcode.com/problemset/all/?search=32", lc: "32", pattern: "DP / Stack", track: "FT", note: "Both valid" },
+    { id: "t2-86", name: "Queue using Stacks", url: "https://leetcode.com/problemset/all/?search=232", lc: "232", pattern: "Stack manipulation", track: "FT", note: "Classic design" },
+    { id: "t2-87", name: "Min Stack", url: "https://leetcode.com/problemset/all/?search=155", lc: "155", pattern: "Stack + auxiliary", track: "FT", note: "Classic design" },
+    { id: "t2-88", name: "Design Twitter", url: "https://leetcode.com/problemset/all/?search=355", lc: "355", pattern: "Heap + HashMap", track: "FT", note: "DSA + design hybrid" },
+    { id: "t2-89", name: "Insert Delete Random O(1)", url: "https://leetcode.com/problemset/all/?search=380", lc: "380", pattern: "HashMap + Array", track: "FT", note: "Random = array index" },
+    { id: "t2-90", name: "Find the Duplicate Number", url: "https://leetcode.com/problems/find-the-duplicate-number/", lc: "287", pattern: "Floyd's Cycle", track: "FT", note: "Array-as-linked-list insight" },
+    { id: "t2-91", name: "Gas Station", url: "https://leetcode.com/problemset/all/?search=134", lc: "134", pattern: "Greedy circular", track: "FT", note: "Running sum insight" },
+    { id: "t2-92", name: "Jump Game II", url: "https://leetcode.com/problemset/all/?search=45", lc: "45", pattern: "Greedy DP", track: "FT", note: "BFS layer interpretation" },
+    { id: "t2-93", name: "Non-overlapping Intervals", url: "https://leetcode.com/problemset/all/?search=435", lc: "435", pattern: "Greedy intervals", track: "FT", note: "Activity selection" },
+    { id: "t2-94", name: "Meeting Rooms II", url: "https://leetcode.com/problemset/all/?search=253", lc: "253", pattern: "Greedy + Heap", track: "FT", note: "Events array approach" },
+    { id: "t2-95", name: "Range Sum Mutable", url: "https://leetcode.com/problemset/all/?search=307", lc: "307", pattern: "Segment Tree / BIT", track: "FT", note: "First seg tree app" },
+    { id: "t2-96", name: "Count Smaller After Self", url: "https://leetcode.com/problemset/all/?search=315", lc: "315", pattern: "Merge Sort / BIT", track: "FT", note: "Merge sort counting" },
+    { id: "t2-97", name: "Queue by Height", url: "https://leetcode.com/problemset/all/?search=406", lc: "406", pattern: "Greedy sort+insert", track: "FT", note: "Counter-intuitive order" },
+    { id: "t2-98", name: "Swim in Rising Water", url: "https://leetcode.com/problemset/all/?search=778", lc: "778", pattern: "Dijkstra / BS+BFS", track: "FT", note: "Two approaches" },
+    { id: "t2-99", name: "Evaluate Division", url: "https://leetcode.com/problemset/all/?search=399", lc: "399", pattern: "Weighted graph BFS", track: "FT", note: "Edge weights as ratios" },
+    { id: "t2-100", name: "Bus Routes", url: "https://leetcode.com/problemset/all/?search=815", lc: "815", pattern: "Multi-source BFS", track: "FT", note: "Meta-graph of routes" },
+    { id: "t2-101", name: "City Smallest Neighbors", url: "https://leetcode.com/problemset/all/?search=1334", lc: "1334", pattern: "Floyd-Warshall", track: "FT", note: "All-pairs shortest" },
+    { id: "t2-102", name: "Min Window to Sort", url: "https://leetcode.com/problemset/all/?search=581", lc: "581", pattern: "Two Pointers", track: "FT", note: "Linear scan insight" },
+    { id: "t2-103", name: "K Closest Points", url: "https://leetcode.com/problemset/all/?search=973", lc: "973", pattern: "Heap / Quick Select", track: "FT", note: "O(N) average" },
+    { id: "t2-104", name: "BT from Inorder+Preorder", url: "https://leetcode.com/problemset/all/?search=105", lc: "105", pattern: "Recursion + HashMap", track: "FT", note: "O(1) index lookup" },
+    { id: "t2-105", name: "Binary Tree Zigzag Level Order", url: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/", lc: "103", pattern: "BFS level order", track: "FT", note: "Alternating level direction" },
+    { id: "t2-106", name: "Count Good Nodes", url: "https://leetcode.com/problemset/all/?search=1448", lc: "1448", pattern: "DFS + max tracking", track: "FT", note: "Pass max down" },
+    { id: "t2-107", name: "Add/Search Words", url: "https://leetcode.com/problemset/all/?search=211", lc: "211", pattern: "Trie + DFS wildcard", track: "FT", note: "Trie with wildcard" },
+    { id: "t2-108", name: "Redundant Connection II", url: "https://leetcode.com/problemset/all/?search=685", lc: "685", pattern: "DSU + edge cases", track: "FT", note: "Directed graph" },
+    { id: "t2-109", name: "Ops to Connect Graph", url: "https://leetcode.com/problemset/all/?search=1319", lc: "1319", pattern: "Union-Find components", track: "FT", note: "Count edges needed" },
+    { id: "t2-110", name: "MST (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Kruskal\'s", track: "FT", note: "Build DSU + sort" },
+    { id: "t2-111", name: "Shortest Paths Neg (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Bellman-Ford", track: "FT", note: "Detect negative cycle" },
+    { id: "t2-112", name: "Max Subarray Sum (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Kadane\'s prefix", track: "FT", note: "Prefix sum variant" },
+    { id: "t2-113", name: "Josephus Problem (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Math + Recursion", track: "FT", note: "Circular elimination" },
+    { id: "t2-114", name: "Range Min Query (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Sparse Table", track: "FT", note: "O(1) query" },
+    { id: "t2-115", name: "Dynamic Range Sum (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Fenwick Tree", track: "FT", note: "BIT prefix sum" },
+    { id: "t2-116", name: "SCC (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Kosaraju\'s", track: "FT", note: "Two-pass DFS" },
+    { id: "t2-117", name: "Bitmask DP Hamilton (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Bitmask DP", track: "FT", note: "dp[mask][v]" },
+    { id: "t2-118", name: "Giant Pizza 2-SAT (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "2-SAT", track: "FT", note: "Implication graph" },
+    { id: "t2-119", name: "Histogram Queries (CSES)", url: "https://cses.fi/problemset/", lc: "CSES", pattern: "Segment Tree", track: "FT", note: "Range query" },
+    { id: "t2-120", name: "Subsets II (revisit)", url: "https://leetcode.com/problemset/all/?search=90", lc: "90", pattern: "Backtracking + Dedup", track: "FT", note: "Dedup is the skill" },
+];
 
-    const handleToggle = useCallback(() => {
-        const newState = toggleProblem(problem.id);
-        setSolved(newState);
-        if (newState && revision) {
-            toggleRevisionMark(problem.id);
-            setRevision(false);
-        }
-    }, [problem.id, revision]);
+const ALL_PROBLEMS: Problem[] = [...TIER1, ...TIER2];
 
-    const handleRevisionToggle = useCallback(() => {
-        setRevision(toggleRevisionMark(problem.id));
-    }, [problem.id]);
+interface ProblemRowProps {
+    problem: Problem;
+    solved: boolean;
+    revision: boolean;
+    onToggleSolved: (id: string) => void;
+    onToggleRevision: (id: string) => void;
+}
 
+function ProblemRow({ problem, solved, revision, onToggleSolved, onToggleRevision }: ProblemRowProps) {
     return (
         <tr className={`group border-b border-border transition-all duration-300 ${solved ? "opacity-60 bg-muted/30" : "hover:bg-muted/50"}`}>
             <td className="px-6 py-4 w-12 text-center">
                 <button
-                    onClick={handleToggle}
-                    className={`w-6 h-6 rounded border-2 transition-all flex items-center justify-center shadow-sm ${solved
-                        ? "bg-primary border-primary text-white"
-                        : "border-border hover:border-primary/50"
-                        }`}
+                    onClick={() => onToggleSolved(problem.id)}
+                    className={`w-6 h-6 rounded border-2 transition-all flex items-center justify-center shadow-sm ${solved ? "bg-primary border-primary text-white" : "border-border hover:border-primary/50"}`}
                     aria-label={solved ? "Mark as unsolved" : "Mark as solved"}
                 >
                     {solved && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M20 6L9 17l-5-5" /></svg>}
                 </button>
             </td>
             <td className="px-6 py-4 font-semibold text-foreground">
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2.5">
                     <a
                         href={problem.url}
                         target="_blank"
@@ -126,17 +187,18 @@ function ProblemRow({ problem }: { problem: Problem }) {
                         </a>
                     )}
                 </div>
+                {problem.note && <p className="mt-1 text-[11px] font-normal text-muted-fg">{problem.note}</p>}
             </td>
             <td className="px-6 py-4 hidden md:table-cell">
                 <span className="text-xs font-medium text-muted-fg bg-muted px-2.5 py-1 rounded-md border border-border">
                     {problem.pattern}
                 </span>
             </td>
-            <td className="px-6 py-4 text-xs font-mono text-muted-fg hidden lg:table-cell">{problem.time || "—"}</td>
-            <td className="px-6 py-4 text-xs font-mono text-muted-fg hidden lg:table-cell">{problem.space || "—"}</td>
+            <td className="px-6 py-4 text-xs font-mono text-muted-fg hidden lg:table-cell">{problem.time || "-"}</td>
+            <td className="px-6 py-4 text-xs font-mono text-muted-fg hidden lg:table-cell">{problem.space || "-"}</td>
             <td className="px-6 py-4 text-right">
                 <button
-                    onClick={handleRevisionToggle}
+                    onClick={() => onToggleRevision(problem.id)}
                     className={`text-xs font-semibold px-4 py-1.5 rounded border transition-all ${revision
                         ? "bg-orange-50 text-orange-600 border-orange-200 dark:bg-orange-950/30 dark:border-orange-900"
                         : "text-muted-fg border-transparent hover:border-border hover:bg-muted"
@@ -149,59 +211,234 @@ function ProblemRow({ problem }: { problem: Problem }) {
     );
 }
 
+function ProblemTable({
+    problems,
+    solvedIds,
+    revisionIds,
+    onToggleSolved,
+    onToggleRevision,
+}: {
+    problems: Problem[];
+    solvedIds: Set<string>;
+    revisionIds: Set<string>;
+    onToggleSolved: (id: string) => void;
+    onToggleRevision: (id: string) => void;
+}) {
+    return (
+        <div className="bg-surface-1 rounded-lg overflow-hidden border border-border">
+            <table className="w-full text-left">
+                <thead>
+                    <tr className="bg-muted/50 border-b border-border">
+                        <th className="px-6 py-4 text-xs font-semibold text-muted-fg w-12 text-center">Status</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-muted-fg">Problem Title</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-muted-fg hidden md:table-cell">Methodology</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-muted-fg hidden lg:table-cell">Time</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-muted-fg hidden lg:table-cell">Space</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-muted-fg text-right">Review</th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-border/50">
+                    {problems.map((problem) => (
+                        <ProblemRow
+                            key={problem.id}
+                            problem={problem}
+                            solved={solvedIds.has(problem.id)}
+                            revision={revisionIds.has(problem.id)}
+                            onToggleSolved={onToggleSolved}
+                            onToggleRevision={onToggleRevision}
+                        />
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
 export default function ProblemsPage() {
-    const solvedCount = TIER1.filter((p) => isProblemSolved(p.id)).length;
+    const progress = useSyncExternalStore(
+        subscribeProgress,
+        getProgressSnapshot,
+        getProgressServerSnapshot,
+    );
+    const [query, setQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState<"all" | "solved" | "unsolved" | "revision">("all");
+    const [trackFilter, setTrackFilter] = useState<"all" | "Both" | "FT">("all");
+    const [tierFilter, setTierFilter] = useState<"all" | "tier1" | "tier2">("all");
+    const [patternFilter, setPatternFilter] = useState<string>("all");
+
+    const solvedIds = useMemo(() => new Set(progress.solvedProblems), [progress.solvedProblems]);
+    const revisionIds = useMemo(() => new Set(progress.revisionMarks), [progress.revisionMarks]);
+
+    const solvedTier1 = useMemo(() => TIER1.filter((problem) => solvedIds.has(problem.id)).length, [solvedIds]);
+    const solvedTier2 = useMemo(() => TIER2.filter((problem) => solvedIds.has(problem.id)).length, [solvedIds]);
+    const solvedCount = solvedTier1 + solvedTier2;
+
+    const totalCount = ALL_PROBLEMS.length;
+    const progressPercent = (solvedCount / totalCount) * 100;
+    const normalizedQuery = query.trim().toLowerCase();
+    const patternOptions = useMemo(
+        () => ["all", ...Array.from(new Set(ALL_PROBLEMS.map((problem) => problem.pattern))).sort((a, b) => a.localeCompare(b))],
+        [],
+    );
+
+    const filteredTier1 = useMemo(
+        () =>
+            TIER1.filter((problem) => {
+                if (normalizedQuery) {
+                    const haystack = `${problem.name} ${problem.pattern} ${problem.lc}`.toLowerCase();
+                    if (!haystack.includes(normalizedQuery)) return false;
+                }
+                if (trackFilter !== "all" && problem.track !== trackFilter) return false;
+                if (patternFilter !== "all" && problem.pattern !== patternFilter) return false;
+                if (statusFilter === "solved" && !solvedIds.has(problem.id)) return false;
+                if (statusFilter === "unsolved" && solvedIds.has(problem.id)) return false;
+                if (statusFilter === "revision" && !revisionIds.has(problem.id)) return false;
+                return true;
+            }),
+        [normalizedQuery, trackFilter, patternFilter, statusFilter, solvedIds, revisionIds],
+    );
+
+    const filteredTier2 = useMemo(
+        () =>
+            TIER2.filter((problem) => {
+                if (normalizedQuery) {
+                    const haystack = `${problem.name} ${problem.pattern} ${problem.lc}`.toLowerCase();
+                    if (!haystack.includes(normalizedQuery)) return false;
+                }
+                if (trackFilter !== "all" && problem.track !== trackFilter) return false;
+                if (patternFilter !== "all" && problem.pattern !== patternFilter) return false;
+                if (statusFilter === "solved" && !solvedIds.has(problem.id)) return false;
+                if (statusFilter === "unsolved" && solvedIds.has(problem.id)) return false;
+                if (statusFilter === "revision" && !revisionIds.has(problem.id)) return false;
+                return true;
+            }),
+        [normalizedQuery, trackFilter, patternFilter, statusFilter, solvedIds, revisionIds],
+    );
+
+    const filteredCount = filteredTier1.length + filteredTier2.length;
+
+    const handleToggleSolved = (id: string) => {
+        toggleProblem(id);
+    };
+
+    const handleToggleRevision = (id: string) => {
+        toggleRevisionMark(id);
+    };
 
     return (
         <div className="max-w-[960px] mx-auto px-6 py-10 lg:py-16">
-            {/* Header */}
             <header className="mb-10">
                 <div className="flex items-center gap-2 mb-4">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-fg">Practice</span>
-                    <span className="text-muted-fg/30">·</span>
-                    <span className="text-[11px] text-muted-fg">{solvedCount} / 60 solved</span>
+                    <span className="text-muted-fg/30">|</span>
+                    <span className="text-[11px] text-muted-fg">{solvedCount} / {totalCount} solved</span>
                 </div>
 
                 <h1 className="text-2xl lg:text-3xl font-bold tracking-tight mb-3">Problem Set</h1>
                 <p className="text-base text-muted-fg leading-relaxed max-w-xl mb-6">
-                    120 curated problems organized by pattern. Focus on understanding the underlying reasoning, not memorizing solutions.
+                    120 curated problems organized by pattern. Focus on understanding reasoning and recall, not memorization.
                 </p>
 
-                <div className="h-1.5 w-full max-w-xs bg-muted rounded-full overflow-hidden">
+                <div className="h-1.5 w-full max-w-xs bg-muted rounded-full overflow-hidden mb-2">
                     <div
                         className="h-full bg-foreground/60 transition-all duration-700 ease-out rounded-full"
-                        style={{ width: `${(solvedCount / 60) * 100}%` }}
+                        style={{ width: `${Math.min(progressPercent, 100)}%` }}
                     />
                 </div>
+                <p className="text-xs text-muted-fg">{solvedTier1} / {TIER1.length} Tier 1, {solvedTier2} / {TIER2.length} Tier 2</p>
             </header>
 
-            {/* Problem List */}
-            <section className="mb-20">
-                <div className="flex items-center gap-4 mb-6">
-                    <h2 className="text-sm font-semibold">Core Fundamentals</h2>
-                    <div className="h-px flex-1 bg-border" />
+            <section className="mb-10 p-4 rounded-lg border border-border bg-surface-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                    <input
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder="Search by name, pattern, or LC #"
+                        className="rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground/30"
+                    />
+                    <select
+                        value={statusFilter}
+                        onChange={(event) => setStatusFilter(event.target.value as "all" | "solved" | "unsolved" | "revision")}
+                        className="rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground/30"
+                    >
+                        <option value="all">Status: All</option>
+                        <option value="solved">Status: Solved</option>
+                        <option value="unsolved">Status: Unsolved</option>
+                        <option value="revision">Status: Revision</option>
+                    </select>
+                    <select
+                        value={trackFilter}
+                        onChange={(event) => setTrackFilter(event.target.value as "all" | "Both" | "FT")}
+                        className="rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground/30"
+                    >
+                        <option value="all">Track: All</option>
+                        <option value="Both">Track: Both</option>
+                        <option value="FT">Track: FT</option>
+                    </select>
+                    <select
+                        value={tierFilter}
+                        onChange={(event) => setTierFilter(event.target.value as "all" | "tier1" | "tier2")}
+                        className="rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground/30"
+                    >
+                        <option value="all">Tier: All</option>
+                        <option value="tier1">Tier: Tier 1</option>
+                        <option value="tier2">Tier: Tier 2</option>
+                    </select>
+                    <select
+                        value={patternFilter}
+                        onChange={(event) => setPatternFilter(event.target.value)}
+                        className="rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground/30"
+                    >
+                        <option value="all">Pattern: All</option>
+                        {patternOptions.map((pattern) =>
+                            pattern === "all" ? null : (
+                                <option key={pattern} value={pattern}>
+                                    {pattern}
+                                </option>
+                            ),
+                        )}
+                    </select>
                 </div>
-
-                <div className="bg-surface-1 rounded-lg overflow-hidden border border-border">
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr className="bg-muted/50 border-b border-border">
-                                <th className="px-6 py-4 text-xs font-semibold text-muted-fg w-12 text-center">Status</th>
-                                <th className="px-6 py-4 text-xs font-semibold text-muted-fg">Problem Title</th>
-                                <th className="px-6 py-4 text-xs font-semibold text-muted-fg hidden md:table-cell">Methodology</th>
-                                <th className="px-6 py-4 text-xs font-semibold text-muted-fg hidden lg:table-cell">Time</th>
-                                <th className="px-6 py-4 text-xs font-semibold text-muted-fg hidden lg:table-cell">Space</th>
-                                <th className="px-6 py-4 text-xs font-semibold text-muted-fg text-right">Review</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border/50">
-                            {TIER1.map((p) => (
-                                <ProblemRow key={p.id} problem={p} />
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <p className="mt-3 text-xs text-muted-fg">{filteredCount} problems match current filters.</p>
             </section>
+
+            {(tierFilter === "all" || tierFilter === "tier1") && (
+                <section className="mb-14">
+                    <div className="flex items-center gap-4 mb-6">
+                        <h2 className="text-sm font-semibold">Tier 1 - Core Fundamentals</h2>
+                        <div className="h-px flex-1 bg-border" />
+                    </div>
+
+                    <ProblemTable
+                        problems={filteredTier1}
+                        solvedIds={solvedIds}
+                        revisionIds={revisionIds}
+                        onToggleSolved={handleToggleSolved}
+                        onToggleRevision={handleToggleRevision}
+                    />
+                </section>
+            )}
+
+            {(tierFilter === "all" || tierFilter === "tier2") && (
+                <section className="mb-20">
+                    <div className="flex items-center gap-4 mb-6">
+                        <h2 className="text-sm font-semibold">Tier 2 - Pattern Deepeners</h2>
+                        <div className="h-px flex-1 bg-border" />
+                    </div>
+
+                    <ProblemTable
+                        problems={filteredTier2}
+                        solvedIds={solvedIds}
+                        revisionIds={revisionIds}
+                        onToggleSolved={handleToggleSolved}
+                        onToggleRevision={handleToggleRevision}
+                    />
+                </section>
+            )}
+
+            {filteredCount === 0 && (
+                <p className="text-sm text-muted-fg pb-20">No problems match these filters. Clear one filter and try again.</p>
+            )}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 # Interview Mechanics — The 45-Minute Framework + Stuck Recovery
 
-> Source: FAANG interviewer rubrics (2025-2026), interviewing.io data, Tech Interview Handbook, 50+ real interview reports from LeetCode Discuss.
+> Compiled from common interviewer rubrics, public interview prep resources, and recurring patterns from candidate debriefs.
 
 ---
 

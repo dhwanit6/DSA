@@ -1,6 +1,7 @@
 # Crash-Course Study Plans — For Students Who Found This Late
 
 > Not everyone has 18 months. Here are battle-tested paths for 4, 8, and 16 weeks.
+> Core target is the essential 120-problem system. Numbers beyond that are optional extension volume for top-tier goals.
 
 ---
 
@@ -75,9 +76,9 @@
 | **3** | Recursion + Backtracking + Stacks (monotonic) | Template is muscle memory |
 | **4** | Trees (all traversals, BST, LCA) + Heaps | Tree dp intuition forming |
 | **5** | Graphs (BFS, DFS, Topo Sort, DSU, Dijkstra) | Can model non-obvious problems as graphs |
-| **6** | DP (Linear → Knapsack → LCS → Grid → Interval) | See [DP Taxonomy](./cheatsheets.md) — cover 7 of 10 patterns |
+| **6** | DP (Linear → Knapsack → LCS → Grid → Interval) | See [DP Taxonomy](../topics/cheatsheets.md) — cover 7 of 10 patterns |
 | **7** | Mixed practice + 2 OA simulations + Behavioral prep | No topic labels — force pattern recognition |
-| **8** | Mock interviews (3/week) + Company-specific + [Final Review](./final-review.md) | Peak performance |
+| **8** | Mock interviews (3/week) + Company-specific + [Final Review](../interview/final-review.md) | Peak performance |
 
 **What to skip in 8 weeks:** Bitmask DP, Digit DP, advanced graph algorithms (Tarjan's, Euler), string algorithms (KMP, Z), advanced data structures (Segment Tree, BIT).
 
@@ -94,11 +95,11 @@
 | **5-6** | Recursion, Backtracking, Linked Lists, Stacks | 3.5 hrs | Backtracking template automatic |
 | **7-8** | Trees + BST + Heaps + Tries | 4 hrs | 120 problems, Mediums in < 30 min |
 | **9-10** | Graphs (BFS, DFS, Topo, Dijkstra, DSU, Kruskal's) | 4 hrs | 160 problems, graph modeling solid |
-| **11-12** | DP (all 10 patterns from [Taxonomy](./cheatsheets.md)) | 4.5 hrs | 220 problems, DP pattern recognition |
-| **13** | Greedy + Bit Manipulation + Mixed practice | 4 hrs | 260 problems, all core topics done |
+| **11-12** | DP (all 10 patterns from [Taxonomy](../topics/cheatsheets.md)) | 4.5 hrs | Core 120 complete + optional extension set started |
+| **13** | Greedy + Bit Manipulation + Mixed practice | 4 hrs | Optional extension problems for top-tier interviews |
 | **14** | System Design + Estimation + Behavioral (8 stories) | 3.5 hrs | Can do 30-min system design walkthrough |
 | **15** | OA simulations (3/week) + Company-specific prep | 4 hrs | 2 full OA mocks with webcam |
-| **16** | Mock interviews (daily) + [Final Review](./final-review.md) | 3 hrs | Peak. Cheatsheets reviewed. Ready. |
+| **16** | Mock interviews (daily) + [Final Review](../interview/final-review.md) | 3 hrs | Peak. Cheatsheets reviewed. Ready. |
 
 ---
 
