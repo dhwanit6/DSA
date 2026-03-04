@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -93,8 +94,8 @@ export function Sidebar() {
                         className="flex items-center gap-3 group"
                         onClick={() => setMobileOpen(false)}
                     >
-                        <div className="w-7 h-7 rounded-md bg-surface-2 border border-border flex items-center justify-center text-xs font-bold text-foreground">
-                            D
+                        <div className="w-7 h-7 rounded-md bg-surface-2 border border-border flex items-center justify-center overflow-hidden">
+                            <Image src="/logo.png" alt="DSA Guide Logo" width={28} height={28} priority />
                         </div>
                         <span className="font-bold text-sm tracking-tight text-foreground">DSA Guide</span>
                     </Link>
