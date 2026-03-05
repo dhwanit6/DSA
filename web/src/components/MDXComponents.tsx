@@ -1,5 +1,13 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
+
+function normalizeMdxHref(rawHref: string): string {
+    const mdMatch = rawHref.match(/^(.*\/)?([^\/?#]+)\.md([?#].*)?$/);
+    if (!mdMatch) return rawHref;
+    const slug = mdMatch[2];
+    const suffix = mdMatch[3] ?? "";
+    return `/${slug}${suffix}`;
+}
 
 export const MDXComponents = {
     UnderTheHood: ({ children }: { children: React.ReactNode }) => (
@@ -39,25 +47,24 @@ export const MDXComponents = {
 
     a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
         let href = props.href || "";
+        const isExternal = /^(https?:|mailto:|tel:)/i.test(href);
+        const isHashLink = href.startsWith("#");
+        const isHttp = /^https?:/i.test(href);
 
-        // Convert relative .md paths to proper web routes
-        // e.g. ../interview/oa-strategy.md → /oa-strategy
-        // e.g. ./phase-1-foundations.md → /phase-1-foundations
-        // e.g. ../topics/cheatsheets.md → /cheatsheets
-        if (href.endsWith(".md")) {
-            const filename = href.split("/").pop()?.replace(".md", "") || "";
-            href = `/${filename}`;
+        if (!isExternal && !isHashLink) {
+            href = normalizeMdxHref(href);
         }
 
-        const isExternal = href.startsWith("http");
+        if (isExternal || isHashLink) {
+            const externalProps = isHttp
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {};
 
-        if (isExternal) {
             return (
                 <a
                     {...props}
                     href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    {...externalProps}
                     className="text-foreground underline decoration-border underline-offset-3 hover:decoration-foreground/50 transition-colors font-medium"
                 />
             );

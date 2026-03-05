@@ -358,8 +358,18 @@ function checklistKey(slug: string, itemId: string): string {
   return `${slug}::${itemId}`;
 }
 
-function plannerTaskKey(dateIso: string, taskIndex: number): string {
-  return `${dateIso}::task-${taskIndex}`;
+function normalizePlannerTaskId(taskIndex: number, taskText?: string): string {
+  if (!taskText) return `task-${taskIndex}`;
+  const normalized = taskText
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 120);
+  return normalized || `task-${taskIndex}`;
+}
+
+function plannerTaskKey(dateIso: string, taskIndex: number, taskText?: string): string {
+  return `${dateIso}::${normalizePlannerTaskId(taskIndex, taskText)}`;
 }
 
 function getRoadmap(track: TrackPreference): string[] {
@@ -398,17 +408,77 @@ function getDailyReadMinutes(hours: number): number {
   return Math.max(20, Math.min(60, Math.round(hours * 18)));
 }
 
-function getTrackPracticeLine(track: TrackPreference, problemTarget: number): string {
+function getWeakPhaseId(progress: ProgressState): "phase0" | "phase1" | "phase2" | "phase3" | null {
+  const weak = getWeakestCorePhase(progress);
+  if (!weak) return null;
+  if (weak.id === "phase0" || weak.id === "phase1" || weak.id === "phase2" || weak.id === "phase3") {
+    return weak.id;
+  }
+  return null;
+}
+
+function getWeakPhaseSkillLabel(phaseId: string | null): string {
+  if (phaseId === "phase0") return "C++ implementation speed and STL fluency";
+  if (phaseId === "phase1") return "core patterns (arrays, binary search, recursion, trees)";
+  if (phaseId === "phase2") return "graphs, greedy, and dynamic programming";
+  if (phaseId === "phase3") return "advanced structures and hard-problem modeling";
+  return "your active chapter's primary pattern";
+}
+
+function getTrackPracticeLine(
+  track: TrackPreference,
+  problemTarget: number,
+  weakPhaseId: string | null,
+  solvedCount: number,
+): string {
+  const skillLabel = getWeakPhaseSkillLabel(weakPhaseId);
   if (track === "full-time") {
-    return `Solve ${problemTarget} problems (include at least 2 medium/hard depth problems).`;
+    return `Solve ${problemTarget} problems with depth focus on ${skillLabel}; include at least 2 medium/hard attempts.`;
   }
   if (track === "crash") {
-    return `Solve ${problemTarget} interview-priority problems under strict timer blocks.`;
+    return `Solve ${problemTarget} interview-priority problems on ${skillLabel} under strict timer blocks.`;
   }
   if (track === "internship") {
-    return `Solve ${problemTarget} problems focused on Tier 1 speed + 1 Tier 2 exposure.`;
+    if (solvedCount < 35) {
+      return `Solve ${problemTarget} Tier 1 problems for speed, then 1 medium on ${skillLabel}.`;
+    }
+    return `Solve ${problemTarget} problems focused on ${skillLabel}; include at least 1 Tier 2 medium.`;
   }
-  return `Solve ${Math.max(2, problemTarget - 1)} Tier 1 problems and finalize your track choice.`;
+  return `Solve ${Math.max(2, problemTarget - 1)} Tier 1 problems and finalize your track choice in dashboard.`;
+}
+
+function getFocusSpecificTask(
+  focus: string,
+  track: TrackPreference,
+  problemTarget: number,
+  weakPhaseId: string | null,
+  reviewTarget: number,
+  revisionBacklog: number,
+): string {
+  const skillLabel = getWeakPhaseSkillLabel(weakPhaseId);
+  if (focus === "Concept Build") {
+    return `Write one short note on ${skillLabel}, then solve ${Math.max(2, problemTarget - 1)} problems without rushing.`;
+  }
+  if (focus === "Pattern Practice") {
+    return `Do ${problemTarget} pattern-focused problems and tag each with its trigger before coding.`;
+  }
+  if (focus === "Speed Drill") {
+    return `Run a 60-minute speed block: ${Math.max(2, problemTarget - 1)} medium attempts on ${skillLabel}.`;
+  }
+  if (focus === "Revision Loop") {
+    if (revisionBacklog > 0) {
+      return `Clear ${Math.min(revisionBacklog, reviewTarget + 1)} items from revision backlog, then re-solve 1 weak problem cold.`;
+    }
+    return `Revise ${reviewTarget} recently solved problems and mark any shaky ones for follow-up.`;
+  }
+  if (focus === "Timed Session") {
+    if (track === "crash") return "Run a full OA-style 90-minute session (3 problems) and log mistakes.";
+    return "Run one 45-minute timed interview problem and debrief with 3 concrete improvements.";
+  }
+  if (focus === "Mock + Debrief") {
+    return "Complete one mock interview and write a debrief with communication, complexity, and testing gaps.";
+  }
+  return "Review this week, set next week's chapter targets, and lock your study slots in calendar.";
 }
 
 export function subscribeProgress(listener: () => void): () => void {
@@ -426,6 +496,26 @@ export function getProgressSnapshot(): ProgressState {
 
 export function getProgressServerSnapshot(): ProgressState {
   return DEFAULT_PROGRESS;
+}
+
+// Test helper: resets singleton state for deterministic unit tests.
+export function __unsafeResetProgressForTests(seed?: ProgressState): void {
+  progressSnapshot = seed ?? createDefaultProgress();
+  isHydrated = true;
+  listeners.clear();
+  if (typeof window !== "undefined") {
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progressSnapshot));
+    } catch {
+      // Ignore storage errors in tests.
+    }
+  }
+}
+
+// Test helper: forces next getProgressSnapshot() call to hydrate from storage.
+export function __unsafeRehydrateProgressForTests(): void {
+  isHydrated = false;
 }
 
 export function toggleChapterRead(slug: string): void {
@@ -526,13 +616,15 @@ export function isChecklistItemComplete(progress: ProgressState, slug: string, i
   return progress.completedChecklistItems.includes(checklistKey(slug, itemId));
 }
 
-export function togglePlannerTask(dateIso: string, taskIndex: number): void {
+export function togglePlannerTask(dateIso: string, taskIndex: number, taskText?: string): void {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateIso)) return;
   if (taskIndex < 0) return;
 
-  const key = plannerTaskKey(dateIso, taskIndex);
+  const key = plannerTaskKey(dateIso, taskIndex, taskText);
+  const legacyKey = plannerTaskKey(dateIso, taskIndex);
   commit((current) => {
-    const plannerTaskCompletions = normalizeProblemArray(toggleInArray(current.plannerTaskCompletions, key));
+    const base = current.plannerTaskCompletions.filter((entry) => entry !== legacyKey || legacyKey === key);
+    const plannerTaskCompletions = normalizeProblemArray(toggleInArray(base, key));
     if (
       plannerTaskCompletions.length === current.plannerTaskCompletions.length &&
       plannerTaskCompletions.every((value, index) => value === current.plannerTaskCompletions[index])
@@ -543,8 +635,15 @@ export function togglePlannerTask(dateIso: string, taskIndex: number): void {
   });
 }
 
-export function isPlannerTaskComplete(progress: ProgressState, dateIso: string, taskIndex: number): boolean {
-  return progress.plannerTaskCompletions.includes(plannerTaskKey(dateIso, taskIndex));
+export function isPlannerTaskComplete(
+  progress: ProgressState,
+  dateIso: string,
+  taskIndex: number,
+  taskText?: string,
+): boolean {
+  const primary = plannerTaskKey(dateIso, taskIndex, taskText);
+  const legacy = plannerTaskKey(dateIso, taskIndex);
+  return progress.plannerTaskCompletions.includes(primary) || progress.plannerTaskCompletions.includes(legacy);
 }
 
 export function getChecklistCompletion(progress: ProgressState, slug: string, itemIds: string[]): number {
@@ -712,6 +811,9 @@ export function getCompletionForecast(progress: ProgressState): CompletionForeca
 export function getWeeklyPlanner(progress: ProgressState, startDate: Date = new Date()): WeeklyPlanner {
   const track = progress.profile.track;
   const dailyHours = progress.profile.dailyHours;
+  const solvedCount = progress.solvedProblems.length;
+  const revisionBacklog = progress.revisionMarks.length;
+  const weakPhaseId = getWeakPhaseId(progress);
   const problemTarget = getDailyProblemTarget(dailyHours, track);
   const reviewTarget = getDailyReviewTarget(problemTarget);
   const readMinutes = getDailyReadMinutes(dailyHours);
@@ -744,8 +846,8 @@ export function getWeeklyPlanner(progress: ProgressState, startDate: Date = new 
     const chapterTitle = CHAPTER_MAP[chapterSlug]?.title ?? "Revision Chapter";
     const tasks: string[] = [
       `Read ${chapterTitle} for ${readMinutes} minutes and mark it complete.`,
-      getTrackPracticeLine(track, problemTarget),
-      `Revise ${reviewTarget} previously marked problem(s) from your revision queue.`,
+      getTrackPracticeLine(track, problemTarget, weakPhaseId, solvedCount),
+      getFocusSpecificTask(focus, track, problemTarget, weakPhaseId, reviewTarget, revisionBacklog),
     ];
 
     if (track === "undecided" && index === 0) {
@@ -756,7 +858,7 @@ export function getWeeklyPlanner(progress: ProgressState, startDate: Date = new 
       tasks[2] = "Run one 45-minute mock interview and write 3 concrete fixes afterward.";
     }
     if (index === 6) {
-      tasks[2] = `Close the week by revising ${reviewTarget + 1} problems and planning next week's targets.`;
+      tasks[2] = `Close the week by revising ${reviewTarget + 1} problems and planning next week's chapter targets.`;
     }
     if (index === 2) {
       tasks.push("Log one pattern journal entry immediately after practice.");
@@ -766,7 +868,7 @@ export function getWeeklyPlanner(progress: ProgressState, startDate: Date = new 
   });
 
   return {
-    summary: `${getTrackLabel(track)} | ${dailyHours}h/day | target ${problemTarget} problems/day`,
+    summary: `${getTrackLabel(track)} | ${dailyHours}h/day | target ${problemTarget} problems/day | weak focus: ${getWeakPhaseSkillLabel(weakPhaseId)}`,
     days,
   };
 }

@@ -92,7 +92,7 @@ export default function PlannerPage() {
             <h2 className="text-sm font-semibold mb-3">{day.focus}</h2>
             <div className="space-y-2 text-sm text-foreground/85">
               {day.tasks.map((task, index) => {
-                const done = isPlannerTaskComplete(progress, day.dateIso, index);
+                const done = isPlannerTaskComplete(progress, day.dateIso, index, task);
                 return (
                   <label
                     key={`${day.dateIso}-${task}`}
@@ -105,7 +105,7 @@ export default function PlannerPage() {
                     <input
                       type="checkbox"
                       checked={done}
-                      onChange={() => togglePlannerTask(day.dateIso, index)}
+                      onChange={() => togglePlannerTask(day.dateIso, index, task)}
                       className="mt-0.5 h-4 w-4 cursor-pointer rounded border-border accent-green-500"
                     />
                     <span className={done ? "line-through decoration-green-500/70 decoration-2" : ""}>

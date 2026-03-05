@@ -1,3 +1,5 @@
+import { CHAPTER_MAP } from "@/lib/chapters";
+
 export interface ChecklistItem {
   id: string;
   text: string;
@@ -8,6 +10,29 @@ const DEFAULT_CHECKLIST: ChecklistItem[] = [
   { id: "apply", text: "Apply this chapter to at least 2 problems." },
   { id: "review", text: "Schedule a review checkpoint in 3 days." },
 ];
+
+const CATEGORY_CHECKLISTS: Record<string, ChecklistItem[]> = {
+  "Learning Path": [
+    { id: "action", text: "Complete the action steps listed in this chapter." },
+    { id: "practice", text: "Solve at least 3 problems tied to this phase." },
+    { id: "review", text: "Write a short weekly review and next steps." },
+  ],
+  Interview: [
+    { id: "script", text: "Practice the key script or framework out loud once." },
+    { id: "mock", text: "Apply this chapter in one mock or OA simulation." },
+    { id: "notes", text: "Write 3 mistakes to avoid next time." },
+  ],
+  Topics: [
+    { id: "intuition", text: "Write the core intuition in your own words." },
+    { id: "trigger", text: "List 2 triggers that signal this pattern." },
+    { id: "problems", text: "Solve 2 problems using this topic." },
+  ],
+  Reference: [
+    { id: "bookmark", text: "Bookmark this chapter for revision week." },
+    { id: "annotate", text: "Add 3 personal notes or examples." },
+    { id: "drill", text: "Use this reference once in a timed session." },
+  ],
+};
 
 const CHECKLIST_BY_SLUG: Record<string, ChecklistItem[]> = {
   "start-here": [
@@ -98,5 +123,8 @@ const CHECKLIST_BY_SLUG: Record<string, ChecklistItem[]> = {
 };
 
 export function getChapterChecklist(slug: string): ChecklistItem[] {
-  return CHECKLIST_BY_SLUG[slug] ?? DEFAULT_CHECKLIST;
+  if (CHECKLIST_BY_SLUG[slug]) return CHECKLIST_BY_SLUG[slug];
+  const category = CHAPTER_MAP[slug]?.category;
+  if (category && CATEGORY_CHECKLISTS[category]) return CATEGORY_CHECKLISTS[category];
+  return DEFAULT_CHECKLIST;
 }

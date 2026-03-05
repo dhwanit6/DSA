@@ -1,49 +1,74 @@
-# The Mental Game & Recovery Framework
+﻿# Mental Game - Burnout Prevention and Recovery
 
-> Every long DSA journey has hard months. Knowing the warning signs before you need them is the difference between quitting and succeeding.
-
----
-
-## Warning Signs You've Taken a Wrong Turn
-
-| Warning Sign | What It Means | Correction |
-|---|---|---|
-| Watching solution videos as primary learning | Building illusion of understanding. Recognition ≠ recall. | Cold-solve for 30 min minimum. Solution only after genuine attempt. |
-| Can't explain your solution without looking at it | Memorized code, not insight. | Write 3-sentence explanation in own words. If you can't, you don't own it. |
-| Problem count high (300+) but contest rating not growing | Practicing too narrowly. | Shift to CSES and Codeforces. Force uncomfortable problem types. |
-| Interview mechanics feel unnatural | Never practiced explicitly. | Do 1 Pramp session this week. Simulate talking through a known problem. |
-| Still failing OAs after 3+ months | Constraint-to-algorithm mapping is weak. | 1 week: read constraints FIRST, predict algorithm BEFORE reading problem. |
-| Dreading study sessions consistently | Burnout, not laziness. | Recovery week: easy problems only, 45 min/day, physical activity daily. |
+> Interview prep is a long game. Your output depends on consistency, not hype.
 
 ---
 
-## The Comparison Trap
+## 1) Core Mental Rules
 
-> Comparing your progress to others on LinkedIn is the most damaging habit. People post wins, not failures. Focus on YOUR delta — you vs you last week.
-
----
-
-## Burnout Recovery Protocol
-
-1. **Acknowledge it:** Burnout is real. It means you've been working. Your brain needs recovery.
-2. **For 5 days:** 45 min/day max. ONLY problems you enjoy and can solve. No new topics.
-3. **Physical activity** every day during recovery. Directly improves cognitive recovery.
-4. **Review your patterns journal.** Seeing how far you've come rebuilds motivation.
-5. **Return to full schedule** only when you genuinely look forward to it.
+1. Consistency beats intensity.
+2. Protect sleep first, then study quality.
+3. Small daily wins prevent panic spirals.
+4. Weekly review matters more than one perfect day.
 
 ---
 
-## What Separates the Top 1%
+## 2) Early Burnout Signals
 
-From hundreds of placement success/failure stories:
+1. You keep starting new plans every 2-3 days.
+2. You avoid medium problems and only do easy ones.
+3. You stop journaling and tracking.
+4. You feel guilt before each study session.
 
-- They show up for **30 minutes on the worst days.** Momentum > motivation.
-- They **embrace discomfort** — deliberately seek problem types where they fail.
-- They **review more than they solve.** 40-50% of time is reviewing old problems.
-- They **practice interview mechanics from Month 2** — talking aloud while coding alone.
-- They **study editorials for problems they solved correctly** — there's almost always a cleaner solution.
-- They **don't treat contest failure as evidence they're not smart enough.** It's information about a weak area.
+If two or more signs are present, run the recovery protocol now.
 
 ---
 
-**Next → [Resources & Daily Schedule](./resources.md)**
+## 3) 7-Day Recovery Protocol
+
+1. Day 1-2: 60 minutes/day, only familiar patterns.
+2. Day 3-4: add one medium attempt/day.
+3. Day 5-6: one timed 45-minute session.
+4. Day 7: full weekly planning reset.
+
+Goal is stability, not maximum hours.
+
+---
+
+## 4) Worked Example (Reseting a Slump)
+
+Situation: student misses 5 study days, feels behind, starts doom-scrolling prep videos.
+
+Recovery:
+
+1. Reduce plan scope to 2 tasks/day.
+2. Re-solve 3 already-known problems.
+3. Restart tracker with only current week goals.
+4. Add one mock by week end.
+
+Result: momentum returns in 4-7 days without panic overreach.
+
+---
+
+## 5) Common Failure Modes and Fixes
+
+| Failure mode | Fix |
+|---|---|
+| Trying to "catch up" with 8-hour days | Return to sustainable hours immediately |
+| Comparing timelines with friends | Track your own weekly metrics only |
+| Studying only when motivated | Use fixed schedule and start timer first |
+| Ignoring rest day | Keep one low-load day every week |
+
+---
+
+## 6) This Week Checklist
+
+- [ ] Lock sleep schedule for 7 days.
+- [ ] Complete one full recovery protocol if needed.
+- [ ] Write one honest weekly self-review.
+
+---
+
+## 7) Next Chapter
+
+Go to [Resources](./resources.md)

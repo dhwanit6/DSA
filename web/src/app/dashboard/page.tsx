@@ -53,7 +53,7 @@ export default function DashboardPage() {
   const trackLabel = getTrackLabel(progress.profile.track);
   const todayPlan = weeklyPlan.days[0];
   const todayCompleted = todayPlan
-    ? todayPlan.tasks.filter((_, index) => isPlannerTaskComplete(progress, todayPlan.dateIso, index)).length
+    ? todayPlan.tasks.filter((task, index) => isPlannerTaskComplete(progress, todayPlan.dateIso, index, task)).length
     : 0;
 
   return (
@@ -122,13 +122,13 @@ export default function DashboardPage() {
               </p>
               <div className="space-y-2 text-xs text-muted-fg">
                 {todayPlan.tasks.map((task, index) => {
-                  const done = isPlannerTaskComplete(progress, todayPlan.dateIso, index);
+                  const done = isPlannerTaskComplete(progress, todayPlan.dateIso, index, task);
                   return (
                     <label key={`${todayPlan.dateIso}-${task}`} className="flex items-start gap-2">
                       <input
                         type="checkbox"
                         checked={done}
-                        onChange={() => togglePlannerTask(todayPlan.dateIso, index)}
+                        onChange={() => togglePlannerTask(todayPlan.dateIso, index, task)}
                         className="mt-0.5 h-3.5 w-3.5 rounded border-border accent-green-500"
                       />
                       <span className={done ? "line-through decoration-green-500/70 decoration-2" : ""}>
