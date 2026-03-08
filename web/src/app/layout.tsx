@@ -3,14 +3,15 @@ import { Sidebar } from "@/components/sidebar";
 import "./globals.css";
 
 const SITE_URL = "https://dhwanit6.github.io/DSA";
+const FEEDBACK_URL = "https://github.com/dhwanit6/DSA/issues/new/choose";
 
 export const metadata: Metadata = {
   title: {
-    default: "DSA Guide - The Free Comprehensive Study Plan",
+    default: "DSA Guide - DSA, CS Fundamentals, and Interview Prep",
     template: "%s - DSA Guide",
   },
   description:
-    "A complete, free DSA interview preparation guide. 120 curated problems, 30 deep-dive chapters, crash-course plans, and built-in progress tracking. No paywall, no login.",
+    "A free interview prep system for DSA, DBMS, OS, computer networks, concurrency, design, and placement rounds. 120 curated problems, structured chapters, planner, and weighted progress tracking.",
   keywords: [
     "DSA",
     "interview preparation",
@@ -33,23 +34,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "DSA Guide",
-    title: "DSA Guide - The Free Comprehensive Study Plan",
+    title: "DSA Guide - DSA, CS Fundamentals, and Interview Prep",
     description:
-      "120 curated problems, 30 chapters, crash-course plans, and progress tracking. Free. No login required.",
+      "DSA, CS fundamentals, design, and interview prep in one free roadmap with planner and progress tracking.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "DSA Guide - The Free Comprehensive Study Plan",
+        alt: "DSA Guide - DSA, CS Fundamentals, and Interview Prep",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "DSA Guide - The Free Comprehensive Study Plan",
+    title: "DSA Guide - DSA, CS Fundamentals, and Interview Prep",
     description:
-      "120 curated problems, 30 chapters, crash-course plans, and progress tracking. Free. No login required.",
+      "DSA, CS fundamentals, design, and interview prep in one free roadmap with planner and progress tracking.",
     images: ["/og-image.png"],
   },
   icons: {
@@ -89,6 +90,11 @@ export default function RootLayout({
               <p className="text-xs text-muted-fg/60 tracking-wide">
                 made with <span className="text-red-400/80">&#9829;</span> by{" "}
                 <span className="text-muted-fg/80 font-medium">Dhwanit</span>
+              </p>
+              <p className="mt-2 text-xs text-muted-fg/60">
+                <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                  Report a bug or chapter issue
+                </a>
               </p>
             </footer>
           </div>

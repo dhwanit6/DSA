@@ -7,7 +7,7 @@ export interface ChecklistItem {
 
 const DEFAULT_CHECKLIST: ChecklistItem[] = [
   { id: "core-idea", text: "Write the core idea in 3 lines in your journal." },
-  { id: "apply", text: "Apply this chapter to at least 2 problems." },
+  { id: "apply", text: "Apply this chapter to at least 2 problems or interview questions." },
   { id: "review", text: "Schedule a review checkpoint in 3 days." },
 ];
 
@@ -21,6 +21,11 @@ const CATEGORY_CHECKLISTS: Record<string, ChecklistItem[]> = {
     { id: "script", text: "Practice the key script or framework out loud once." },
     { id: "mock", text: "Apply this chapter in one mock or OA simulation." },
     { id: "notes", text: "Write 3 mistakes to avoid next time." },
+  ],
+  "CS Fundamentals": [
+    { id: "viva", text: "Answer 5 rapid-fire interview questions from this chapter out loud." },
+    { id: "example", text: "Work through one concrete example or mini-case from this chapter." },
+    { id: "tradeoff", text: "Write one tradeoff or failure mode you must remember in interviews." },
   ],
   Topics: [
     { id: "intuition", text: "Write the core intuition in your own words." },
@@ -80,10 +85,30 @@ const CHECKLIST_BY_SLUG: Record<string, ChecklistItem[]> = {
     { id: "constraints", text: "Map constraints to target complexity for each OA problem." },
     { id: "mock", text: "Run at least one timed OA simulation with webcam on." },
   ],
-  "final-review": [
-    { id: "checklist", text: "Complete all 3-day checklist items." },
-    { id: "mock-last", text: "Run one final timed mock interview." },
-    { id: "sleep", text: "Lock sleep and review-light routine before interview day." },
+  "cs-fundamentals-roadmap": [
+    { id: "market", text: "Choose your likely market mix: US, Europe, India, or mixed." },
+    { id: "sequence", text: "Lock your order: DBMS -> OS -> Networks -> Concurrency -> Design." },
+    { id: "slots", text: "Reserve 3 weekly fundamentals slots on dashboard or calendar." },
+  ],
+  "dbms-sql": [
+    { id: "sql-set", text: "Write 5 SQL queries covering JOIN, GROUP BY, subquery, and window-free ranking logic." },
+    { id: "index", text: "Explain one good index choice and one bad index choice for the same schema." },
+    { id: "tx", text: "Practice a 60-second answer for ACID, isolation level tradeoffs, and normalization vs denormalization." },
+  ],
+  "operating-systems": [
+    { id: "proc-thread", text: "Practice the process vs thread answer until it is crisp and example-driven." },
+    { id: "memory", text: "Explain stack vs heap, paging, and context switch without hand-waving." },
+    { id: "deadlock", text: "Trace one deadlock example and state at least 2 prevention strategies." },
+  ],
+  "computer-networks": [
+    { id: "request-flow", text: "Narrate one browser request end-to-end: DNS -> TCP/TLS -> HTTP -> response." },
+    { id: "transport", text: "Practice when to choose TCP vs UDP with one concrete product example each." },
+    { id: "latency", text: "Explain how CDN, keep-alive, caching, and load balancing reduce latency." },
+  ],
+  "concurrency-multithreading": [
+    { id: "race", text: "Trace one race condition and fix it using a mutex, semaphore, or atomic." },
+    { id: "primitives", text: "Explain mutex vs semaphore vs monitor in interview language, not textbook language." },
+    { id: "deadlock", text: "Practice the 4 deadlock conditions and one real prevention approach." },
   ],
   "mock-sessions": [
     { id: "schedule", text: "Schedule 2 mock sessions in your calendar this week." },
@@ -100,6 +125,11 @@ const CHECKLIST_BY_SLUG: Record<string, ChecklistItem[]> = {
     { id: "practice", text: "Practice each story aloud with 2-minute and 4-minute versions." },
     { id: "feedback", text: "Get feedback from a peer on clarity and impact." },
   ],
+  "final-review": [
+    { id: "checklist", text: "Complete all 3-day checklist items." },
+    { id: "mock-last", text: "Run one final timed mock interview." },
+    { id: "sleep", text: "Lock sleep and review-light routine before interview day." },
+  ],
   "complexity-analysis": [
     { id: "complexity-table", text: "Create one personal complexity cheat table for core patterns." },
     { id: "trace", text: "Trace one nested-loop problem and derive its time complexity." },
@@ -109,6 +139,21 @@ const CHECKLIST_BY_SLUG: Record<string, ChecklistItem[]> = {
     { id: "trigger-map", text: "Build a trigger map for 6 common problem statements." },
     { id: "blind-practice", text: "Solve 3 mixed problems and identify pattern before coding." },
     { id: "review-errors", text: "Review wrong pattern picks and write correction rules." },
+  ],
+  "system-design-primer": [
+    { id: "flow", text: "Run the full 30-minute design flow once with a timer." },
+    { id: "scale", text: "State 3 explicit scale assumptions before drawing components." },
+    { id: "tradeoffs", text: "Write 3 tradeoffs and 2 bottlenecks for one design." },
+  ],
+  "lld-ood-design": [
+    { id: "entities", text: "List entities, responsibilities, and boundaries before writing classes." },
+    { id: "interfaces", text: "Define at least 2 interfaces or extension points." },
+    { id: "walkthrough", text: "Walk one end-to-end use case through your design." },
+  ],
+  "estimation-mental-problems": [
+    { id: "assumptions", text: "State assumptions before every calculation." },
+    { id: "units", text: "Check units at every step to avoid order-of-magnitude mistakes." },
+    { id: "range", text: "End each answer with a sanity-check range and main bottleneck." },
   ],
   cheatsheets: [
     { id: "bookmark", text: "Bookmark this chapter for final-week quick revision." },

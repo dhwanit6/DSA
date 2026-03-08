@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import { ChapterSupportPanel } from "@/components/chapter-support-panel";
 import { MDXComponents } from "@/components/MDXComponents";
 import { ChapterChecklistControls } from "@/components/chapter-checklist-controls";
 import { ChapterProgressControls } from "@/components/chapter-progress-controls";
 import { getChapterChecklist } from "@/lib/chapter-checklists";
+import { getChapterSupport } from "@/lib/chapter-support";
 import { getAllChapterMeta, getAllSlugs, getChapterBySlug } from "@/lib/content";
 
 interface PageProps {
@@ -16,6 +18,7 @@ interface PageProps {
 function getPracticeEstimateMinutes(category: string): number {
   if (category === "Learning Path") return 60;
   if (category === "Interview") return 45;
+  if (category === "CS Fundamentals") return 40;
   if (category === "Topics") return 50;
   return 30;
 }
@@ -58,8 +61,8 @@ export default async function ChapterPage({ params }: PageProps) {
   const readMinutes = Math.max(8, Math.ceil(chapter.content.length / 1000));
   const practiceMinutes = getPracticeEstimateMinutes(chapter.category);
   const checklist = getChapterChecklist(slug);
+  const support = getChapterSupport(slug, chapter.category);
   const { previous, next } = getAdjacentChapters(slug);
-  const youtubeSearch = `https://www.youtube.com/results?search_query=${encodeURIComponent(`${chapter.title} striver neetcode`)}`;
 
   return (
     <div className="max-w-[760px] mx-auto px-6 py-10 lg:py-16">
@@ -97,20 +100,7 @@ export default async function ChapterPage({ params }: PageProps) {
         />
       </article>
 
-      <section className="mt-12 p-5 border border-border rounded-xl bg-surface-1">
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-fg mb-3">Still Stuck?</p>
-        <div className="space-y-2 text-sm text-foreground/90">
-          <p>
-            1. Watch a focused explanation: <a href={youtubeSearch} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline underline-offset-4">Find a Striver/NeetCode walkthrough</a>
-          </p>
-          <p>
-            2. Step down difficulty: revisit <Link href="/problems" className="text-primary hover:underline underline-offset-4">Tier 1 core problems</Link>
-          </p>
-          <p>
-            3. Re-implement from template: <Link href="/code-templates" className="text-primary hover:underline underline-offset-4">Code Templates</Link>
-          </p>
-        </div>
-      </section>
+      <ChapterSupportPanel support={support} />
 
       <footer className="mt-12 pt-8 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-3">
         {previous ? (

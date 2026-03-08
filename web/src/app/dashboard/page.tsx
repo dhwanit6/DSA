@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import {
+  getCsFundamentalsBreakdown,
   getTrackLabel,
   getWeeklyPlanner,
   getCompletionForecast,
@@ -47,6 +48,7 @@ export default function DashboardPage() {
   const nudge = getDashboardNudge(progress);
   const milestone = getMilestoneMessage(stats.problemsSolved);
   const phasePath = getPhasePathProgress(progress);
+  const fundamentalsBreakdown = getCsFundamentalsBreakdown(progress);
   const weakestPhase = getWeakestCorePhase(progress);
   const forecast = getCompletionForecast(progress);
   const weeklyPlan = getWeeklyPlanner(progress);
@@ -76,11 +78,12 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
             {TRACK_OPTIONS.map((option) => {
               const active = progress.profile.track === option.id;
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  onClick={() => setTrackPreference(option.id as TrackPreference)}
+                return (
+                  <button
+                    key={option.id}
+                    data-testid={`dashboard-track-option-${option.id}`}
+                    type="button"
+                    onClick={() => setTrackPreference(option.id as TrackPreference)}
                   className={`rounded-lg border px-3 py-2 text-left transition-colors ${
                     active
                       ? "border-foreground/25 bg-surface-2"
@@ -175,9 +178,35 @@ export default function DashboardPage() {
         </p>
       </Link>
 
+      <section className="mb-8 rounded-lg border border-border bg-surface-1 p-5">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-fg mb-2">Overall Progress</p>
+            <p className="text-2xl font-semibold">{stats.overallPercent}% complete</p>
+            <p className="mt-1 text-sm text-muted-fg">
+              {stats.completedEffortPoints.toFixed(1)} / {stats.totalEffortPoints.toFixed(1)} focus blocks completed
+            </p>
+          </div>
+          <p className="text-xs text-muted-fg">
+            Effort-weighted across chapters and problems, so deep modules count more than short reference pages.
+          </p>
+        </div>
+
+        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-border">
+          <div
+            className="h-full rounded-full bg-foreground/70 transition-all duration-700"
+            style={{ width: `${stats.overallPercent}%` }}
+          />
+        </div>
+
+        <p className="mt-3 text-xs text-muted-fg">
+          Remaining load: {stats.remainingEffortPoints.toFixed(1)} focus blocks, about {stats.estimatedHoursLeft.toFixed(1)} study hours.
+        </p>
+      </section>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {[
-          { label: "Chapters Read", val: stats.chaptersRead, total: TOTAL_CHAPTERS },
+          { label: "Library Chapters", val: stats.chaptersRead, total: TOTAL_CHAPTERS },
           { label: "Problems Solved", val: stats.problemsSolved, total: TOTAL_PROBLEMS },
           { label: "Needs Revision", val: revisionCount, total: null },
           { label: "Streak", val: streak, total: null, suffix: " days" },
@@ -207,7 +236,7 @@ export default function DashboardPage() {
           <div className="h-px flex-1 bg-border" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
           {phasePath.map((phase) => (
             <div key={phase.id} className="p-4 rounded-lg border border-border bg-surface-1">
               <p className="text-[11px] uppercase tracking-widest text-muted-fg mb-2">{phase.title}</p>
@@ -224,6 +253,41 @@ export default function DashboardPage() {
         </div>
       </section>
 
+      <section className="mb-10">
+        <div className="flex items-center gap-4 mb-5">
+          <h2 className="text-sm font-semibold">CS Fundamentals Breakdown</h2>
+          <div className="h-px flex-1 bg-border" />
+        </div>
+        <p className="mb-5 text-sm text-muted-fg">
+          Track the interview-heavy subjects separately so DBMS, OS, networks, concurrency, and design do not blur into one block.
+          Start from{" "}
+          <Link href="/cs-fundamentals-roadmap" className="text-primary hover:underline underline-offset-4">
+            the roadmap
+          </Link>{" "}
+          if this lane still feels broad.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
+          {fundamentalsBreakdown.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              className="rounded-lg border border-border bg-surface-1 p-4 hover:border-foreground/25 transition-colors"
+            >
+              <p className="text-[11px] uppercase tracking-widest text-muted-fg mb-2">{item.title}</p>
+              <p className="text-lg font-semibold mb-2">{item.percent}%</p>
+              <div className="mb-2 h-1 w-full overflow-hidden rounded-full bg-border">
+                <div
+                  className="h-full rounded-full bg-foreground/60 transition-all duration-700"
+                  style={{ width: `${item.percent}%` }}
+                />
+              </div>
+              <p className="text-xs text-muted-fg">{item.completed} / {item.total} chapter(s) done</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="mb-10 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-5 rounded-lg border border-border bg-surface-1">
           <p className="text-[11px] uppercase tracking-widest text-muted-fg mb-2">ETA</p>
@@ -231,14 +295,17 @@ export default function DashboardPage() {
             <>
               <p className="text-xl font-semibold mb-1">{forecast.daysToFinish} days to finish</p>
               <p className="text-sm text-muted-fg">
-                Based on your current pace of {forecast.pacePerDay.toFixed(1)} units/day.
+                Based on your current pace of {forecast.pacePerDay.toFixed(1)} focus blocks/day.
               </p>
-              <p className="text-xs text-muted-fg mt-2">Projected completion date: {forecast.projectedDateIso}</p>
+              <p className="text-xs text-muted-fg mt-2">
+                {forecast.remainingEffortPoints.toFixed(1)} focus blocks left, about {forecast.remainingStudyHours.toFixed(1)} hours of study.
+              </p>
+              <p className="text-xs text-muted-fg mt-1">Projected completion date: {forecast.projectedDateIso}</p>
             </>
           ) : (
             <>
               <p className="text-xl font-semibold mb-1">No estimate yet</p>
-              <p className="text-sm text-muted-fg">Solve a few problems and the estimate will appear.</p>
+              <p className="text-sm text-muted-fg">Finish a few meaningful study blocks and the estimate will appear.</p>
             </>
           )}
         </div>
@@ -253,7 +320,7 @@ export default function DashboardPage() {
           ) : (
             <>
               <p className="text-xl font-semibold mb-1">Core phases stable</p>
-              <p className="text-sm text-muted-fg">You are not currently behind on Phase 0-3.</p>
+              <p className="text-sm text-muted-fg">You are not currently behind on the core DSA phases for your track.</p>
             </>
           )}
         </div>
@@ -265,9 +332,10 @@ export default function DashboardPage() {
           <div className="h-px flex-1 bg-border" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
           {[
             { title: "Start Here", href: "/start-here", desc: "Reset your plan in 10 minutes." },
+            { title: "CS Fundamentals", href: "/cs-fundamentals-roadmap", desc: "Enter the DBMS, OS, networks, and concurrency lane." },
             { title: "Problems", href: "/problems", desc: "Continue problem practice and revision." },
             { title: "Weekly Planner", href: "/planner", desc: "Get your auto-generated 7-day execution plan." },
           ].map((item) => (

@@ -1,4 +1,4 @@
-import { CHAPTER_MAP, CHAPTER_TOTAL, getOrderedChapterMeta } from "@/lib/chapters";
+import { CHAPTER_MAP, CHAPTER_TOTAL, getOrderedChapterMeta, type ChapterConfig } from "@/lib/chapters";
 
 export const TOTAL_CHAPTERS = CHAPTER_TOTAL;
 export const TOTAL_PROBLEMS = 120;
@@ -30,6 +30,10 @@ export interface ProgressStats {
   chaptersRead: number;
   problemsSolved: number;
   overallPercent: number;
+  completedEffortPoints: number;
+  totalEffortPoints: number;
+  remainingEffortPoints: number;
+  estimatedHoursLeft: number;
 }
 
 export interface DashboardNudge {
@@ -50,6 +54,8 @@ export interface CompletionForecast {
   daysToFinish: number;
   pacePerDay: number;
   projectedDateIso: string;
+  remainingEffortPoints: number;
+  remainingStudyHours: number;
 }
 
 export interface WeeklyPlannerDay {
@@ -84,8 +90,26 @@ const TRACK_LABELS: Record<TrackPreference, string> = {
   crash: "Crash Track",
 };
 
+const CS_FUNDAMENTALS_SLUGS = [
+  "cs-fundamentals-roadmap",
+  "dbms-sql",
+  "operating-systems",
+  "computer-networks",
+  "concurrency-multithreading",
+  "system-design-primer",
+  "lld-ood-design",
+  "estimation-mental-problems",
+] as const;
+
 const TRACK_ROADMAPS: Record<TrackPreference, string[]> = {
-  undecided: ["start-here", "progress-tracker", "two-tracks", "phase-0-cpp", "phase-1-foundations"],
+  undecided: [
+    "start-here",
+    "progress-tracker",
+    "two-tracks",
+    "phase-0-cpp",
+    "phase-1-foundations",
+    "cs-fundamentals-roadmap",
+  ],
   internship: [
     "start-here",
     "progress-tracker",
@@ -95,6 +119,11 @@ const TRACK_ROADMAPS: Record<TrackPreference, string[]> = {
     "phase-2-intermediate",
     "mechanics",
     "oa-strategy",
+    "cs-fundamentals-roadmap",
+    "dbms-sql",
+    "operating-systems",
+    "computer-networks",
+    "concurrency-multithreading",
     "mock-sessions",
     "company-specific",
     "behavioral",
@@ -110,6 +139,11 @@ const TRACK_ROADMAPS: Record<TrackPreference, string[]> = {
     "phase-3-advanced",
     "mechanics",
     "oa-strategy",
+    "cs-fundamentals-roadmap",
+    "dbms-sql",
+    "operating-systems",
+    "computer-networks",
+    "concurrency-multithreading",
     "system-design-primer",
     "lld-ood-design",
     "estimation-mental-problems",
@@ -118,37 +152,129 @@ const TRACK_ROADMAPS: Record<TrackPreference, string[]> = {
     "behavioral",
     "final-review",
   ],
-  crash: ["start-here", "two-tracks", "crash-plans", "mechanics", "oa-strategy", "mock-sessions", "final-review"],
+  crash: [
+    "start-here",
+    "progress-tracker",
+    "two-tracks",
+    "crash-plans",
+    "mechanics",
+    "oa-strategy",
+    "cs-fundamentals-roadmap",
+    "dbms-sql",
+    "operating-systems",
+    "computer-networks",
+    "concurrency-multithreading",
+    "mock-sessions",
+    "company-specific",
+    "behavioral",
+    "final-review",
+  ],
 };
 
-const PHASE_SEGMENTS: ReadonlyArray<{ id: string; title: string; href: string; slugs: string[] }> = [
-  {
+type SegmentDef = { id: string; title: string; href: string; slugs: string[] };
+
+const SEGMENT_DEFINITIONS: Record<string, SegmentDef> = {
+  onboarding: {
     id: "onboarding",
     title: "Onboarding",
     href: "/start-here",
     slugs: ["start-here", "progress-tracker", "two-tracks"],
   },
-  { id: "phase0", title: "Phase 0", href: "/phase-0-cpp", slugs: ["phase-0-cpp"] },
-  { id: "phase1", title: "Phase 1", href: "/phase-1-foundations", slugs: ["phase-1-foundations"] },
-  { id: "phase2", title: "Phase 2", href: "/phase-2-intermediate", slugs: ["phase-2-intermediate"] },
-  {
+  phase0: { id: "phase0", title: "Phase 0", href: "/phase-0-cpp", slugs: ["phase-0-cpp"] },
+  phase1: { id: "phase1", title: "Phase 1", href: "/phase-1-foundations", slugs: ["phase-1-foundations"] },
+  phase2: { id: "phase2", title: "Phase 2", href: "/phase-2-intermediate", slugs: ["phase-2-intermediate"] },
+  phase3: { id: "phase3", title: "Phase 3", href: "/phase-3-advanced", slugs: ["phase-3-advanced"] },
+  crash: { id: "crash", title: "Crash Plan", href: "/crash-plans", slugs: ["crash-plans"] },
+  "cs-fundamentals": {
+    id: "cs-fundamentals",
+    title: "CS Fundamentals",
+    href: "/cs-fundamentals-roadmap",
+    slugs: [...CS_FUNDAMENTALS_SLUGS],
+  },
+  interview: {
     id: "interview",
     title: "Interview",
     href: "/mechanics",
-    slugs: ["mechanics", "oa-strategy", "mock-sessions", "final-review"],
+    slugs: ["mechanics", "oa-strategy", "mock-sessions", "company-specific", "behavioral", "final-review"],
+  },
+};
+
+const CS_FUNDAMENTALS_BREAKDOWN: ReadonlyArray<SegmentDef> = [
+  { id: "fund-dbms", title: "DBMS", href: "/dbms-sql", slugs: ["dbms-sql"] },
+  { id: "fund-os", title: "OS", href: "/operating-systems", slugs: ["operating-systems"] },
+  { id: "fund-networks", title: "Networks", href: "/computer-networks", slugs: ["computer-networks"] },
+  { id: "fund-concurrency", title: "Concurrency", href: "/concurrency-multithreading", slugs: ["concurrency-multithreading"] },
+  {
+    id: "fund-design",
+    title: "Design",
+    href: "/system-design-primer",
+    slugs: ["system-design-primer", "lld-ood-design", "estimation-mental-problems"],
   },
 ];
 
-const CORE_PHASE_SEGMENTS: ReadonlyArray<{ id: string; title: string; href: string; slugs: string[] }> = [
-  { id: "phase0", title: "Phase 0", href: "/phase-0-cpp", slugs: ["phase-0-cpp"] },
-  { id: "phase1", title: "Phase 1", href: "/phase-1-foundations", slugs: ["phase-1-foundations"] },
-  { id: "phase2", title: "Phase 2", href: "/phase-2-intermediate", slugs: ["phase-2-intermediate"] },
-  { id: "phase3", title: "Phase 3", href: "/phase-3-advanced", slugs: ["phase-3-advanced"] },
+const CATEGORY_EFFORT_POINTS: Record<ChapterConfig["category"], number> = {
+  "Learning Path": 2.5,
+  Interview: 2.25,
+  "CS Fundamentals": 3.75,
+  Topics: 2.5,
+  Reference: 1.5,
+};
+
+const CHAPTER_EFFORT_OVERRIDES: Partial<Record<string, number>> = {
+  "start-here": 2,
+  "progress-tracker": 1.5,
+  "two-tracks": 1.5,
+  "phase-0-cpp": 5,
+  "phase-1-foundations": 7,
+  "phase-2-intermediate": 8,
+  "phase-3-advanced": 7,
+  mechanics: 3,
+  "oa-strategy": 3,
+  "cs-fundamentals-roadmap": 2.5,
+  "dbms-sql": 4.5,
+  "operating-systems": 4.5,
+  "computer-networks": 4.25,
+  "concurrency-multithreading": 4.5,
+  "system-design-primer": 4.5,
+  "lld-ood-design": 4,
+  "estimation-mental-problems": 3,
+  "mock-sessions": 3.5,
+  "company-specific": 2,
+  behavioral: 2.5,
+  "final-review": 2,
+  "post-placement": 1.5,
+  "complexity-analysis": 3,
+  "pattern-recognition": 3,
+  "sorting-algorithms": 2.5,
+  "debugging-testing": 2.5,
+  "ai-era-mastery": 2,
+  cheatsheets: 1.25,
+  "code-templates": 1.5,
+  "language-flexibility": 1.5,
+  "common-mistakes": 1.5,
+  "patterns-journal-template": 1.25,
+  "mental-game": 1.5,
+  resources: 1.5,
+  "crash-plans": 2.5,
+};
+
+const PROBLEM_EFFORT_POINTS = 0.6;
+const EFFORT_POINT_HOURS = 0.75;
+
+const CORE_PHASE_SEGMENTS: ReadonlyArray<SegmentDef> = [
+  SEGMENT_DEFINITIONS.phase0,
+  SEGMENT_DEFINITIONS.phase1,
+  SEGMENT_DEFINITIONS.phase2,
+  SEGMENT_DEFINITIONS.phase3,
 ];
 
 const ORDERED_SLUGS = getOrderedChapterMeta().map((chapter) => chapter.slug);
 const CHAPTER_ORDER_INDEX = new Map(ORDERED_SLUGS.map((slug, index) => [slug, index]));
 const CHAPTER_SLUGS = new Set(Object.keys(CHAPTER_MAP));
+const TOTAL_CHAPTER_EFFORT_POINTS = roundToTenths(
+  ORDERED_SLUGS.reduce((sum, slug) => sum + getChapterEffortPoints(slug), 0),
+);
+const TOTAL_LIBRARY_EFFORT_POINTS = roundToTenths(TOTAL_CHAPTER_EFFORT_POINTS + TOTAL_PROBLEMS * PROBLEM_EFFORT_POINTS);
 
 const DEFAULT_PROGRESS: ProgressState = createDefaultProgress();
 let progressSnapshot: ProgressState = DEFAULT_PROGRESS;
@@ -377,6 +503,52 @@ function getRoadmap(track: TrackPreference): string[] {
   return path.filter((slug) => CHAPTER_SLUGS.has(slug));
 }
 
+function getRelevantPathSegments(track: TrackPreference): SegmentDef[] {
+  if (track === "full-time") {
+    return [
+      SEGMENT_DEFINITIONS.onboarding,
+      SEGMENT_DEFINITIONS.phase0,
+      SEGMENT_DEFINITIONS.phase1,
+      SEGMENT_DEFINITIONS.phase2,
+      SEGMENT_DEFINITIONS.phase3,
+      SEGMENT_DEFINITIONS["cs-fundamentals"],
+      SEGMENT_DEFINITIONS.interview,
+    ];
+  }
+  if (track === "internship") {
+    return [
+      SEGMENT_DEFINITIONS.onboarding,
+      SEGMENT_DEFINITIONS.phase0,
+      SEGMENT_DEFINITIONS.phase1,
+      SEGMENT_DEFINITIONS.phase2,
+      SEGMENT_DEFINITIONS["cs-fundamentals"],
+      SEGMENT_DEFINITIONS.interview,
+    ];
+  }
+  if (track === "crash") {
+    return [
+      SEGMENT_DEFINITIONS.onboarding,
+      SEGMENT_DEFINITIONS.crash,
+      SEGMENT_DEFINITIONS["cs-fundamentals"],
+      SEGMENT_DEFINITIONS.interview,
+    ];
+  }
+  return [
+    SEGMENT_DEFINITIONS.onboarding,
+    SEGMENT_DEFINITIONS.phase0,
+    SEGMENT_DEFINITIONS.phase1,
+    SEGMENT_DEFINITIONS["cs-fundamentals"],
+    SEGMENT_DEFINITIONS.interview,
+  ];
+}
+
+function getRelevantCorePhaseSegments(track: TrackPreference): SegmentDef[] {
+  if (track === "full-time") return [...CORE_PHASE_SEGMENTS];
+  if (track === "internship") return CORE_PHASE_SEGMENTS.filter((segment) => segment.id !== "phase3");
+  if (track === "undecided") return CORE_PHASE_SEGMENTS.filter((segment) => segment.id === "phase0" || segment.id === "phase1");
+  return [];
+}
+
 function getNextUnreadFromRoadmap(progress: ProgressState): string | null {
   const read = new Set(progress.readChapters);
   const roadmap = getRoadmap(progress.profile.track);
@@ -392,6 +564,32 @@ function getNextUnreadFromRoadmap(progress: ProgressState): string | null {
 function percent(completed: number, total: number): number {
   if (total <= 0) return 0;
   return Math.min(100, Math.round((completed / total) * 100));
+}
+
+function roundToTenths(value: number): number {
+  return Math.round(value * 10) / 10;
+}
+
+function getChapterEffortPoints(slug: string): number {
+  const chapter = CHAPTER_MAP[slug];
+  if (!chapter) return CATEGORY_EFFORT_POINTS.Reference;
+  return CHAPTER_EFFORT_OVERRIDES[slug] ?? CATEGORY_EFFORT_POINTS[chapter.category];
+}
+
+function getCompletedChapterEffortPoints(progress: ProgressState): number {
+  return roundToTenths(progress.readChapters.reduce((sum, slug) => sum + getChapterEffortPoints(slug), 0));
+}
+
+function getCompletedProblemEffortPoints(progress: ProgressState): number {
+  return roundToTenths(progress.solvedProblems.length * PROBLEM_EFFORT_POINTS);
+}
+
+function getCompletedEffortPoints(progress: ProgressState): number {
+  return roundToTenths(getCompletedChapterEffortPoints(progress) + getCompletedProblemEffortPoints(progress));
+}
+
+function getRemainingEffortPoints(progress: ProgressState): number {
+  return roundToTenths(Math.max(0, TOTAL_LIBRARY_EFFORT_POINTS - getCompletedEffortPoints(progress)));
 }
 
 function getDailyProblemTarget(hours: number, track: TrackPreference): number {
@@ -447,28 +645,130 @@ function getTrackPracticeLine(
   return `Solve ${Math.max(2, problemTarget - 1)} Tier 1 problems and finalize your track choice in dashboard.`;
 }
 
+function getChapterExecutionTask(
+  chapterSlug: string,
+  track: TrackPreference,
+  problemTarget: number,
+  weakPhaseId: string | null,
+  solvedCount: number,
+): string {
+  if (chapterSlug === "cs-fundamentals-roadmap") {
+    return "Lock your fundamentals order and reserve 3 weekly slots: DBMS -> OS -> Networks -> Concurrency -> Design.";
+  }
+  if (chapterSlug === "dbms-sql") {
+    return "Write 3 SQL queries today: one JOIN, one GROUP BY, and one subquery; explain one good index choice.";
+  }
+  if (chapterSlug === "operating-systems") {
+    return "Answer 5 oral questions on process vs thread, stack vs heap, paging, context switch, and deadlock.";
+  }
+  if (chapterSlug === "computer-networks") {
+    return "Explain one request end-to-end: DNS -> TCP/TLS -> HTTP -> server -> response, then compare TCP vs UDP.";
+  }
+  if (chapterSlug === "concurrency-multithreading") {
+    return "Trace one race condition, fix it with a mutex or atomic, and explain one deadlock prevention rule.";
+  }
+  if (chapterSlug === "system-design-primer") {
+    return "Run one 30-minute design drill: requirements, scale, APIs, data model, bottlenecks, and tradeoffs.";
+  }
+  if (chapterSlug === "lld-ood-design") {
+    return "Model one LLD problem with entities, interfaces, responsibilities, and one end-to-end walkthrough.";
+  }
+  if (chapterSlug === "estimation-mental-problems") {
+    return "Do 2 estimation drills and say every assumption, unit conversion, and sanity check out loud.";
+  }
+  return getTrackPracticeLine(track, problemTarget, weakPhaseId, solvedCount);
+}
+
+function getFundamentalsFocusTask(focus: string, chapterSlug: string, track: TrackPreference): string | null {
+  if (chapterSlug === "cs-fundamentals-roadmap") {
+    if (focus === "Concept Build") return "Write a one-page map of what your target market asks and what you will ignore for now.";
+    if (focus === "Applied Practice") return "Map your target companies into three buckets: coding heavy, fundamentals heavy, or design heavy.";
+    if (focus === "Speed Drill") return "Do a 15-minute rapid-fire round: ACID, process vs thread, TCP vs UDP, mutex vs semaphore.";
+    if (focus === "Revision Loop") return "Re-read your roadmap and cut one low-value deep-dive topic from this month's plan.";
+    if (focus === "Timed Session") return "Run a 25-minute mixed theory round across DBMS, OS, networks, and concurrency.";
+  }
+  if (chapterSlug === "dbms-sql") {
+    if (focus === "Concept Build") return "Write one page on joins, indexes, ACID, isolation, and normalization using your own examples.";
+    if (focus === "Applied Practice") return "Run a timed SQL set: 2 joins, 1 aggregation, 1 schema question.";
+    if (focus === "Speed Drill") return "Do a 20-minute viva round: index selectivity, read committed, denormalization, clustered index.";
+    if (focus === "Revision Loop") return "Re-write your weakest SQL query from memory and explain one bad index choice.";
+    if (focus === "Timed Session") return "Run a 30-minute DBMS round: 10 minutes SQL, 10 minutes transactions, 10 minutes schema tradeoffs.";
+  }
+  if (chapterSlug === "operating-systems") {
+    if (focus === "Concept Build") return "Write short answers for process vs thread, stack vs heap, virtual memory, and page fault.";
+    if (focus === "Applied Practice") return "Practice 6 OS viva questions and force yourself to give one example per answer.";
+    if (focus === "Speed Drill") return "Do a 15-minute OS rapid-fire block: context switch, deadlock, scheduling, paging, syscall.";
+    if (focus === "Revision Loop") return "Re-explain deadlock and virtual memory without notes until the answer sounds natural.";
+    if (focus === "Timed Session") return "Run a 25-minute OS theory round with short answers and one whiteboard example.";
+  }
+  if (chapterSlug === "computer-networks") {
+    if (focus === "Concept Build") return "Draw the request path once: DNS, TCP/TLS, HTTP, load balancer, app, database, response.";
+    if (focus === "Applied Practice") return "Practice 5 networking answers: DNS, TCP vs UDP, HTTP vs HTTPS, CDN, load balancer.";
+    if (focus === "Speed Drill") return "Do a 15-minute networking rapid-fire block and keep each answer under 45 seconds.";
+    if (focus === "Revision Loop") return "Rebuild the browser request flow from memory and fix any missing step.";
+    if (focus === "Timed Session") return "Run a 25-minute request-flow round and answer follow-ups on latency, caching, and retries.";
+  }
+  if (chapterSlug === "concurrency-multithreading") {
+    if (focus === "Concept Build") return "Write short answers for race condition, critical section, mutex, semaphore, deadlock, and thread pool.";
+    if (focus === "Applied Practice") return "Sketch one thread-safe counter and one producer-consumer design in your main language.";
+    if (focus === "Speed Drill") return "Do a 15-minute concurrency viva: mutex vs semaphore, async vs threads, starvation vs deadlock.";
+    if (focus === "Revision Loop") return "Re-explain one race bug and one deadlock fix until both sound concrete and code-aware.";
+    if (focus === "Timed Session") return "Run a 30-minute concurrency round with one coding-style example and one theory-style example.";
+  }
+  if (chapterSlug === "system-design-primer") {
+    if (focus === "Concept Build") return "Write a reusable design skeleton: requirements, scale, APIs, data model, bottlenecks, tradeoffs.";
+    if (focus === "Applied Practice") return "Do one compact service design and say why each component exists.";
+    if (focus === "Speed Drill") return "Run a 20-minute design round and practice staying structured under time pressure.";
+    if (focus === "Revision Loop") return "Review one previous design and tighten 3 weak tradeoffs.";
+    if (focus === "Timed Session") return "Run one full 30-minute design interview and debrief the missing bottlenecks.";
+  }
+  if (chapterSlug === "lld-ood-design") {
+    if (focus === "Concept Build") return "List entities, responsibilities, interfaces, and extension points before drawing classes.";
+    if (focus === "Applied Practice") return "Solve one LLD problem with 20 minutes of modeling and 10 minutes of walkthrough.";
+    if (focus === "Speed Drill") return "Do a 15-minute design sketch focused on responsibilities, not inheritance chains.";
+    if (focus === "Revision Loop") return "Refactor one old LLD solution by splitting one God class into clear components.";
+    if (focus === "Timed Session") return "Run a 30-minute LLD round and explain one extension without rewriting the core model.";
+  }
+  if (chapterSlug === "estimation-mental-problems") {
+    if (focus === "Concept Build") return "Create a one-page sheet of unit conversions, rounded baselines, and common sanity checks.";
+    if (focus === "Applied Practice") return "Do 3 short estimation drills and narrate every assumption before calculating.";
+    if (focus === "Speed Drill") return "Run a 15-minute mental-math block with strict rounding and unit checks.";
+    if (focus === "Revision Loop") return "Re-do yesterday's estimate from memory and tighten the final range.";
+    if (focus === "Timed Session") return "Run a 25-minute estimation round: one QPS, one storage, one bandwidth question.";
+  }
+  if (track === "crash" && CHAPTER_MAP[chapterSlug]?.category === "CS Fundamentals" && focus === "Timed Session") {
+    return "Run a 20-minute rapid-fire theory round and keep every answer under 45 seconds.";
+  }
+  return null;
+}
+
 function getFocusSpecificTask(
   focus: string,
+  chapterSlug: string,
   track: TrackPreference,
   problemTarget: number,
   weakPhaseId: string | null,
   reviewTarget: number,
   revisionBacklog: number,
 ): string {
+  if (focus === "Revision Loop" && revisionBacklog > 0) {
+    return `Clear ${Math.min(revisionBacklog, reviewTarget + 1)} items from revision backlog, then re-solve 1 weak problem cold.`;
+  }
+
+  const fundamentalsTask = getFundamentalsFocusTask(focus, chapterSlug, track);
+  if (fundamentalsTask) return fundamentalsTask;
+
   const skillLabel = getWeakPhaseSkillLabel(weakPhaseId);
   if (focus === "Concept Build") {
     return `Write one short note on ${skillLabel}, then solve ${Math.max(2, problemTarget - 1)} problems without rushing.`;
   }
-  if (focus === "Pattern Practice") {
+  if (focus === "Applied Practice") {
     return `Do ${problemTarget} pattern-focused problems and tag each with its trigger before coding.`;
   }
   if (focus === "Speed Drill") {
     return `Run a 60-minute speed block: ${Math.max(2, problemTarget - 1)} medium attempts on ${skillLabel}.`;
   }
   if (focus === "Revision Loop") {
-    if (revisionBacklog > 0) {
-      return `Clear ${Math.min(revisionBacklog, reviewTarget + 1)} items from revision backlog, then re-solve 1 weak problem cold.`;
-    }
     return `Revise ${reviewTarget} recently solved problems and mark any shaky ones for follow-up.`;
   }
   if (focus === "Timed Session") {
@@ -667,12 +967,17 @@ export function getNextRecommendedChapter(progress: ProgressState): string | nul
 export function getStats(progress: ProgressState): ProgressStats {
   const chaptersRead = progress.readChapters.length;
   const problemsSolved = progress.solvedProblems.length;
-  const totalUnits = TOTAL_CHAPTERS + TOTAL_PROBLEMS;
-  const completedUnits = chaptersRead + problemsSolved;
+  const completedEffortPoints = getCompletedEffortPoints(progress);
+  const totalEffortPoints = TOTAL_LIBRARY_EFFORT_POINTS;
+  const remainingEffortPoints = roundToTenths(Math.max(0, totalEffortPoints - completedEffortPoints));
   return {
     chaptersRead,
     problemsSolved,
-    overallPercent: percent(completedUnits, totalUnits),
+    overallPercent: percent(completedEffortPoints, totalEffortPoints),
+    completedEffortPoints,
+    totalEffortPoints,
+    remainingEffortPoints,
+    estimatedHoursLeft: roundToTenths(remainingEffortPoints * EFFORT_POINT_HOURS),
   };
 }
 
@@ -704,7 +1009,22 @@ export function getCurrentStreak(progress: ProgressState): number {
 
 export function getPhasePathProgress(progress: ProgressState): PhasePathProgressItem[] {
   const read = new Set(progress.readChapters);
-  return PHASE_SEGMENTS.map((segment) => {
+  return getRelevantPathSegments(progress.profile.track).map((segment) => {
+    const completed = segment.slugs.filter((slug) => read.has(slug)).length;
+    return {
+      id: segment.id,
+      title: segment.title,
+      href: segment.href,
+      completed,
+      total: segment.slugs.length,
+      percent: percent(completed, segment.slugs.length),
+    };
+  });
+}
+
+export function getCsFundamentalsBreakdown(progress: ProgressState): PhasePathProgressItem[] {
+  const read = new Set(progress.readChapters);
+  return CS_FUNDAMENTALS_BREAKDOWN.map((segment) => {
     const completed = segment.slugs.filter((slug) => read.has(slug)).length;
     return {
       id: segment.id,
@@ -719,7 +1039,7 @@ export function getPhasePathProgress(progress: ProgressState): PhasePathProgress
 
 export function getWeakestCorePhase(progress: ProgressState): PhasePathProgressItem | null {
   const read = new Set(progress.readChapters);
-  const phases = CORE_PHASE_SEGMENTS.map((segment) => {
+  const phases = getRelevantCorePhaseSegments(progress.profile.track).map((segment) => {
     const completed = segment.slugs.filter((slug) => read.has(slug)).length;
     return {
       id: segment.id,
@@ -774,11 +1094,10 @@ export function getDashboardNudge(progress: ProgressState): DashboardNudge {
 }
 
 export function getCompletionForecast(progress: ProgressState): CompletionForecast | null {
-  const completedUnits = progress.readChapters.length + progress.solvedProblems.length;
-  if (completedUnits < 5) return null;
+  const completedEffortPoints = getCompletedEffortPoints(progress);
+  if (completedEffortPoints < 6) return null;
 
-  const totalUnits = TOTAL_CHAPTERS + TOTAL_PROBLEMS;
-  const remainingUnits = Math.max(0, totalUnits - completedUnits);
+  const remainingEffortPoints = getRemainingEffortPoints(progress);
 
   const sortedActivity = [...progress.activityDates].sort((a, b) => a.localeCompare(b));
   const firstActivityDate = sortedActivity[0] ? parseLocalIsoDate(sortedActivity[0]) : null;
@@ -787,24 +1106,28 @@ export function getCompletionForecast(progress: ProgressState): CompletionForeca
 
   const today = new Date();
   const elapsedDays = Math.max(1, Math.floor((today.getTime() - startDate.getTime()) / MS_PER_DAY) + 1);
-  const pacePerDay = completedUnits / elapsedDays;
+  const pacePerDay = roundToTenths(completedEffortPoints / elapsedDays);
 
-  if (pacePerDay < 0.15) return null;
-  if (remainingUnits === 0) {
+  if (pacePerDay < 0.35) return null;
+  if (remainingEffortPoints === 0) {
     return {
       daysToFinish: 0,
       pacePerDay,
       projectedDateIso: formatLocalIsoDate(today),
+      remainingEffortPoints: 0,
+      remainingStudyHours: 0,
     };
   }
 
-  const daysToFinish = Math.max(1, Math.ceil(remainingUnits / pacePerDay));
+  const daysToFinish = Math.max(1, Math.ceil(remainingEffortPoints / pacePerDay));
   const projected = addDays(today, daysToFinish);
 
   return {
     daysToFinish,
     pacePerDay,
     projectedDateIso: formatLocalIsoDate(projected),
+    remainingEffortPoints,
+    remainingStudyHours: roundToTenths(remainingEffortPoints * EFFORT_POINT_HOURS),
   };
 }
 
@@ -821,11 +1144,13 @@ export function getWeeklyPlanner(progress: ProgressState, startDate: Date = new 
   const read = new Set(progress.readChapters);
   const upcoming = roadmap.filter((slug) => !read.has(slug));
   const fallbackSlug = getNextUnreadFromRoadmap(progress) ?? "final-review";
+  const primaryChapterSlug = upcoming[0] ?? fallbackSlug;
+  const primaryCategory = CHAPTER_MAP[primaryChapterSlug]?.category;
   const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
 
   const dayFocus = [
     "Concept Build",
-    "Pattern Practice",
+    "Applied Practice",
     "Speed Drill",
     "Revision Loop",
     "Timed Session",
@@ -846,8 +1171,8 @@ export function getWeeklyPlanner(progress: ProgressState, startDate: Date = new 
     const chapterTitle = CHAPTER_MAP[chapterSlug]?.title ?? "Revision Chapter";
     const tasks: string[] = [
       `Read ${chapterTitle} for ${readMinutes} minutes and mark it complete.`,
-      getTrackPracticeLine(track, problemTarget, weakPhaseId, solvedCount),
-      getFocusSpecificTask(focus, track, problemTarget, weakPhaseId, reviewTarget, revisionBacklog),
+      getChapterExecutionTask(chapterSlug, track, problemTarget, weakPhaseId, solvedCount),
+      getFocusSpecificTask(focus, chapterSlug, track, problemTarget, weakPhaseId, reviewTarget, revisionBacklog),
     ];
 
     if (track === "undecided" && index === 0) {
@@ -868,7 +1193,10 @@ export function getWeeklyPlanner(progress: ProgressState, startDate: Date = new 
   });
 
   return {
-    summary: `${getTrackLabel(track)} | ${dailyHours}h/day | target ${problemTarget} problems/day | weak focus: ${getWeakPhaseSkillLabel(weakPhaseId)}`,
+    summary:
+      primaryCategory === "CS Fundamentals"
+        ? `${getTrackLabel(track)} | ${dailyHours}h/day | target 1 fundamentals block/day + ${Math.max(1, problemTarget - 1)} maintenance problems | weak focus: ${getWeakPhaseSkillLabel(weakPhaseId)}`
+        : `${getTrackLabel(track)} | ${dailyHours}h/day | target ${problemTarget} problems/day | weak focus: ${getWeakPhaseSkillLabel(weakPhaseId)}`,
     days,
   };
 }

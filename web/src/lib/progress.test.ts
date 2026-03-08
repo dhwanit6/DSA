@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  getCsFundamentalsBreakdown,
   __unsafeRehydrateProgressForTests,
   __unsafeResetProgressForTests,
   getChecklistCompletion,
@@ -7,6 +8,8 @@ import {
   getCurrentStreak,
   getDashboardNudge,
   getProgressSnapshot,
+  getStats,
+  getWeakestCorePhase,
   getWeeklyPlanner,
   isChecklistItemComplete,
   isPlannerTaskComplete,
@@ -107,11 +110,81 @@ describe("progress store + planner behavior", () => {
     expect(forecast?.pacePerDay).toBeGreaterThan(0);
   });
 
+  it("tracks progress using effort-weighted math instead of flat units", () => {
+    const progress = makeState({
+      readChapters: ["start-here", "progress-tracker", "two-tracks", "phase-0-cpp", "phase-1-foundations"],
+      solvedProblems: Array.from({ length: 20 }).map((_, index) => `p-${index}`),
+    });
+
+    const stats = getStats(progress);
+
+    expect(stats.completedEffortPoints).toBe(29);
+    expect(stats.totalEffortPoints).toBeGreaterThan(stats.completedEffortPoints);
+    expect(stats.remainingEffortPoints).toBeGreaterThan(0);
+    expect(stats.estimatedHoursLeft).toBeGreaterThan(0);
+    expect(stats.overallPercent).toBeGreaterThan(0);
+  });
+
   it("returns a track-selection nudge when track is undecided", () => {
     const undecided = makeState({
       profile: { track: "undecided", dailyHours: 2 },
     });
     const nudge = getDashboardNudge(undecided);
     expect(nudge.link).toBe("/two-tracks");
+  });
+
+  it("does not treat phase 3 as the weakest phase for internship track", () => {
+    const internshipReady = makeState({
+      profile: { track: "internship", dailyHours: 2 },
+      readChapters: [
+        "start-here",
+        "progress-tracker",
+        "two-tracks",
+        "phase-0-cpp",
+        "phase-1-foundations",
+        "phase-2-intermediate",
+      ],
+    });
+
+    expect(getWeakestCorePhase(internshipReady)).toBeNull();
+  });
+
+  it("generates chapter-aware planner tasks for fundamentals chapters", () => {
+    const progress = makeState({
+      profile: { track: "full-time", dailyHours: 2.5 },
+      readChapters: [
+        "start-here",
+        "progress-tracker",
+        "two-tracks",
+        "phase-0-cpp",
+        "phase-1-foundations",
+        "phase-2-intermediate",
+        "phase-3-advanced",
+        "mechanics",
+        "oa-strategy",
+        "cs-fundamentals-roadmap",
+      ],
+    });
+
+    const planner = getWeeklyPlanner(progress, new Date("2026-03-10T00:00:00.000Z"));
+
+    expect(planner.days[0].tasks[0]).toContain("DBMS & SQL");
+    expect(planner.days[0].tasks[1]).toContain("SQL");
+    expect(planner.days[0].tasks[2]).toContain("joins");
+    expect(planner.days[1].tasks[0]).toContain("Operating Systems");
+    expect(planner.days[1].tasks[2]).toContain("OS viva");
+  });
+
+  it("breaks cs fundamentals into subject-level dashboard segments", () => {
+    const progress = makeState({
+      readChapters: ["cs-fundamentals-roadmap", "dbms-sql", "system-design-primer"],
+    });
+
+    const breakdown = getCsFundamentalsBreakdown(progress);
+    const dbms = breakdown.find((item) => item.id === "fund-dbms");
+    const design = breakdown.find((item) => item.id === "fund-design");
+
+    expect(dbms?.percent).toBe(100);
+    expect(design?.percent).toBe(33);
   });
 });

@@ -47,6 +47,7 @@ export default function PlannerPage() {
                 return (
                   <button
                     key={option.id}
+                    data-testid={`planner-track-option-${option.id}`}
                     type="button"
                     onClick={() => setTrackPreference(option.id as TrackPreference)}
                     className={`rounded-md border px-3 py-2 text-left text-xs transition-colors ${
@@ -87,7 +88,7 @@ export default function PlannerPage() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
         {plan.days.map((day) => (
-          <article key={day.dateIso} className="rounded-lg border border-border bg-surface-1 p-4">
+          <article key={day.dateIso} data-testid="planner-day-card" className="rounded-lg border border-border bg-surface-1 p-4">
             <p className="text-[11px] uppercase tracking-widest text-muted-fg mb-1">{day.label}</p>
             <h2 className="text-sm font-semibold mb-3">{day.focus}</h2>
             <div className="space-y-2 text-sm text-foreground/85">

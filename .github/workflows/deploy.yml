@@ -30,9 +30,29 @@ jobs:
         working-directory: web
         run: npm ci
 
+      - name: Run unit tests
+        working-directory: web
+        run: npm run test:run
+
+      - name: Run lint
+        working-directory: web
+        run: npm run lint
+
+      - name: Run content audit
+        working-directory: web
+        run: npm run qa:content
+
+      - name: Install Playwright browser
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+
+      - name: Run end-to-end tests
+        working-directory: web
+        run: npm run test:e2e
+
       - name: Build static site
         working-directory: web
-        run: npx next build
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -1,4 +1,4 @@
-﻿# Start Here - Your First 48 Hours
+# Start Here - Your First 48 Hours
 
 > If you feel lost, follow this page exactly. No guessing.
 
@@ -33,7 +33,7 @@ Speak your approach aloud, state complexity, and test with one normal + one edge
 
 ---
 
-## 3) Day 1 Checklist (Do in Order)
+## 3) Day 1 Checklist (Do In Order)
 
 - [ ] Open [Progress Tracker](../tracking/progress-tracker.md) and set your tracking method.
 - [ ] Read [Complexity Analysis](../topics/complexity-analysis.md) once.
@@ -49,12 +49,25 @@ Use this sequence for zero confusion:
 
 1. [Start Here](./start-here.md)
 2. [Progress Tracker](../tracking/progress-tracker.md)
-3. [Two Tracks](../interview/two-tracks.md)
-4. One path:
+3. [The Two Tracks](../interview/two-tracks.md)
+4. Pick one path:
    - [Phase 0](./phase-0-cpp.md) if C++ is weak
    - [Phase 1](./phase-1-foundations.md) if language is comfortable
    - [Crash Plans](./crash-plans.md) if timeline < 4 months
-5. Continue chapter-by-chapter with Next button + Dashboard
+5. Finish core DSA flow:
+   - Phase 0 -> Phase 1 -> Phase 2
+6. Then enter the interview theory lane:
+   - [CS Fundamentals Roadmap](../fundamentals/cs-fundamentals-roadmap.md)
+   - DBMS -> OS -> Networks -> Concurrency -> Design
+7. Finish with:
+   - Mechanics
+   - OA
+   - Mocks
+   - Company-specific prep
+   - Behavioral
+   - Final review
+
+This order is deliberate. It prevents the classic mistake of reading random OS/DBMS notes before your DSA base is stable.
 
 ---
 
@@ -64,6 +77,7 @@ Use this sequence for zero confusion:
 2. One short journal entry after each solved problem.
 3. One timed mock every week after Phase 1 midpoint.
 4. Daily minimum 90-minute focused block.
+5. CS fundamentals are for structured weekly slots, not panic-night cramming.
 
 ---
 

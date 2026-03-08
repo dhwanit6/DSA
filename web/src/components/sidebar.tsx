@@ -9,6 +9,7 @@ import { getSidebarSections, type NavItem } from "@/lib/chapters";
 import { ThemeToggle } from "./theme-toggle";
 
 const NAV_SECTIONS = getSidebarSections();
+const FEEDBACK_URL = "https://github.com/dhwanit6/DSA/issues/new/choose";
 
 interface SearchEntry extends NavItem {
   section: string;
@@ -162,6 +163,21 @@ export function Sidebar() {
               className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground/30"
             />
             <p className="mt-2 text-[11px] text-muted-fg">{chapterCount} chapter results</p>
+          </div>
+
+          <div className="mb-6 rounded-lg border border-border bg-background/70 p-4">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-fg mb-2">Feedback</p>
+            <p className="text-xs leading-relaxed text-muted-fg mb-3">
+              Found a broken flow, weak chapter, or confusing step? Log it directly so the soft-publish pass stays grounded in real user friction.
+            </p>
+            <a
+              href={FEEDBACK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-md border border-border px-3 py-2 text-xs font-medium text-muted-fg hover:text-foreground hover:border-foreground/25 transition-colors"
+            >
+              Give Feedback
+            </a>
           </div>
 
           {filteredSections.length === 0 ? (
