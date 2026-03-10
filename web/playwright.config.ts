@@ -1,8 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const PORT = 3005;
-const APP_BASE_PATH = process.env.GITHUB_PAGES === "true" ? "/DSA" : "";
-const BASE_URL = `http://127.0.0.1:${PORT}${APP_BASE_PATH}/`;
+const BASE_URL = `http://127.0.0.1:${PORT}/`;
 
 export default defineConfig({
   testDir: "./e2e",

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { getSidebarSections, type NavItem } from "@/lib/chapters";
+import { withBasePath } from "@/lib/site";
 import { ThemeToggle } from "./theme-toggle";
 
 const NAV_SECTIONS = getSidebarSections();
@@ -83,7 +84,7 @@ export function Sidebar() {
         <div className="p-8 pb-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group" onClick={() => setMobileOpen(false)}>
             <div className="w-7 h-7 rounded-md bg-surface-2 border border-border flex items-center justify-center overflow-hidden">
-              <Image src="/logo.png" alt="DSA Guide Logo" width={28} height={28} priority />
+              <Image src={withBasePath("/logo.png")} alt="DSA Guide Logo" width={28} height={28} priority />
             </div>
             <span className="font-bold text-sm tracking-tight text-foreground">DSA Guide</span>
           </Link>

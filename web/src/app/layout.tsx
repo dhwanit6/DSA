@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Sidebar } from "@/components/sidebar";
+import { withBasePath } from "@/lib/site";
 import "./globals.css";
 
 const SITE_URL = "https://dhwanit6.github.io/DSA";
@@ -55,11 +56,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", type: "image/x-icon" },
-      { url: "/icon.png", type: "image/png" },
+      { url: withBasePath("/favicon.ico"), type: "image/x-icon" },
+      { url: withBasePath("/icon.png"), type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
-    apple: "/apple-icon.png",
+    shortcut: withBasePath("/favicon.ico"),
+    apple: withBasePath("/apple-icon.png"),
   },
   robots: {
     index: true,

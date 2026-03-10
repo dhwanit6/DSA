@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
-const isGitHubPages = process.env.GITHUB_PAGES === "true";
+const basePath = process.env.NODE_ENV === "production" ? "/DSA" : "";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: isGitHubPages ? "/DSA" : "",
+  basePath,
+  assetPrefix: basePath || undefined,
   trailingSlash: true,
   images: {
     unoptimized: true,
