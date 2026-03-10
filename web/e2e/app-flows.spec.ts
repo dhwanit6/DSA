@@ -1,7 +1,12 @@
 import { expect, test } from "@playwright/test";
 
+async function gotoApp(page: import("@playwright/test").Page, appPath = "") {
+  const normalizedPath = appPath.replace(/^\/+/, "");
+  await page.goto(normalizedPath);
+}
+
 async function clearProgress(page: import("@playwright/test").Page) {
-  await page.goto("/");
+  await gotoApp(page);
   await page.evaluate(() => {
     window.localStorage.clear();
   });
@@ -25,7 +30,7 @@ test("homepage and sidebar navigation reach the expected chapters", async ({ pag
 
 test("chapter checklist state persists across reload", async ({ page }) => {
   await clearProgress(page);
-  await page.goto("/phase-0-cpp");
+  await gotoApp(page, "phase-0-cpp");
 
   const firstChecklist = page.getByTestId("chapter-checklist-item").first().locator('input[type="checkbox"]');
   await firstChecklist.check();
@@ -37,7 +42,7 @@ test("chapter checklist state persists across reload", async ({ page }) => {
 
 test("planner task completion persists across reload", async ({ page }) => {
   await clearProgress(page);
-  await page.goto("/planner");
+  await gotoApp(page, "planner");
 
   const firstTask = page.getByTestId("planner-day-card").first().locator('input[type="checkbox"]').first();
   await firstTask.check();
@@ -49,7 +54,7 @@ test("planner task completion persists across reload", async ({ page }) => {
 
 test("dashboard track and daily hours persist across reload", async ({ page }) => {
   await clearProgress(page);
-  await page.goto("/dashboard");
+  await gotoApp(page, "dashboard");
 
   await page.getByRole("button", { name: /Crash/i }).click();
   const hoursSlider = page.locator("#daily-hours");
@@ -65,7 +70,7 @@ test("dashboard track and daily hours persist across reload", async ({ page }) =
 
 test("problems page renders and supports filtering", async ({ page }) => {
   await clearProgress(page);
-  await page.goto("/problems");
+  await gotoApp(page, "problems");
 
   await expect(page.getByRole("heading", { name: "Problem Set" })).toBeVisible();
   await page.getByPlaceholder("Search by name, pattern, or LC #").fill("Two Sum");
